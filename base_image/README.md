@@ -3,3 +3,16 @@
 ----
 
 ### A folder with images for testing the performance of a trained convolutional neural network. The folder contains 10 classes from the cifar10 dataset. Real, blurred, black and white, drawn and AI generated images are collected here.
+
+
+### Класи у cifar-10:
+- Літак (airplane).
+- Автомобіль (automobile).
+- Птах (bird).
+- Кіт (cat).
+- Олень (deer).
+- Собака (dog).
+- Жаба (frog).
+- Кінь (horse).
+- Корабель (ship).
+- Вантажівка (truck).
