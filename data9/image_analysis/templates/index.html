@@ -9,50 +9,101 @@
     <link rel="stylesheet" href="static/image_analysis/styles.css">
     <style>
         body {
-                   background: linear-gradient(to bottom right, #d0d0d0, #ffffff);
-                                   background-image: url('https://www.europarl.europa.eu/resources/library/images/20230607PHT95601/20230607PHT95601_original.jpg');
-                   color: white;
-                   font-family: Arial, sans-serif;
-                   margin: 0;
-                   height: 100vh;
-               }
+            background: linear-gradient(to bottom right, #d0d0d0, #ffffff);
+            background-image: url('https://www.europarl.europa.eu/resources/library/images/20230607PHT95601/20230607PHT95601_original.jpg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 110%;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            height: 100vh;
+        }
 
-               .navbar-custom {
-                   background-color: rgba(0, 0, 0, 0.7);
-               }
+        .navbar-custom {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
 
-               .navbar-custom .nav-link, .navbar-custom .navbar-brand {
-                   color: white;
-               }
+        .navbar-custom .nav-link, .navbar-custom .navbar-brand {
+            color: white;
+        }
 
-    .hero-text {
-        text-align: center;
-        position: absolute;
-        top: 25%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: #000033;
-    }
+        .hero-text {
+            text-align: center;
+            position: absolute;
+            top: 25%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: bold;
+            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
+        }
 
-    .hero-text h1 {
-        font-size: 4em;
-        font-weight: bold;
-        text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
-    }
+        .hero-text h1 {
+            font-size: 4em;
+            font-weight: bold;
+            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
+        }
 
-    .hero-text p {
-        font-size: 1.5em;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    }
+        .hero-text p {
+            font-size: 1.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
 
-    .upload-container {
-        margin-top: 20px;
-    }
+        .upload-container {
+            margin-top: 20px;
+        }
 
-    .btn-upload {
-        padding: 10px 20px;
-        font-size: 1.2em;
-    }
+<!--        .btn-upload {-->
+<!--            padding: 10px 20px;-->
+<!--            font-size: 1.2em;-->
+<!--        }-->
+        .btn-custom {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            color: white;
+            background-color: #0d6efd;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .btn-custom:hover {
+            background-color: #0b5ed7;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .file-input {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .progress-container {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 20px;
+            background-color: #007bff;
+            color: #ffffff;
+            text-align: center;
+            line-height: 20px;
+            transition: width 0.4s ease;
+        }
+
     </style>
     <title>Головна сторінка</title>
 </head>
@@ -92,16 +143,33 @@
             {% csrf_token %}
 <!--            <input type="file" name="uploaded_file" id="file-input"/>-->
 <!--            <input type="file" name="uploaded_files" id="file-input" accept="image/*" multiple/>-->
-            <input type="file" name="uploaded_files" id="file-input" multiple/>
+<!--            <input type="file" name="uploaded_files" id="file-input" multiple/>-->
+<!--            <div class="upload-container">-->
+<!--                <button id="submit-button" type="submit" class="btn btn-primary btn-lg btn-upload">Завантажити файл-->
+<!--                </button>-->
+<!--            </div>-->
+            <div class="file-input-wrapper">
+                <input type="file" name="uploaded_files" id="file-input" multiple class="file-input"/>
+                <button type="button" class="btn btn-primary btn-lg btn-upload" id="file-select-button">Вибрати файл</button>
+            </div>
             <div class="upload-container">
-                <button id="submit-button" type="submit" class="btn btn-primary btn-lg btn-upload">Завантажити файл
-                </button>
+                <button id="submit-button" type="submit" class="btn btn-primary btn-lg btn-upload">Завантажити файл</button>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar">0%</div>
             </div>
         </form>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+96DZZf+kAYKeElvcxfgDzpmkg8K6" crossorigin="anonymous"></script>
+            integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+96DZZf+kAYKeElvcxfgDzpmkg8K6" crossorigin="anonymous">
+    </script>
+
     <script>
+        document.getElementById('file-select-button').addEventListener('click', function() {
+            document.getElementById('file-input').click();
+        });
+
         document.getElementById('file-input').addEventListener('change', function() {
             const submitButton = document.getElementById('submit-button');
             if (this.files.length > 0) {
@@ -116,8 +184,48 @@
             if (fileInput.files.length === 0) {
                 event.preventDefault();
                 alert('Будь ласка, виберіть файл перед завантаженням.');
+            } else {
+                // Show progress bar
+                document.querySelector('.progress-container').style.display = 'block';
+                // Simulate progress for demo purposes
+                simulateModelProcessing();
             }
         });
+
+        function simulateModelProcessing() {
+            const progressBar = document.getElementById('progress-bar');
+            let progress = 0;
+            const interval = setInterval(function() {
+                progress += 10;
+                if (progress <= 100) {
+                    progressBar.style.width = progress + '%';
+                    progressBar.textContent = progress + '%';
+                } else {
+                    clearInterval(interval);
+                    document.querySelector('.progress-container').style.display = 'none';
+                }
+            }, 500); // Simulate progress every 0.5 seconds
+        }
     </script>
+
+<!--    <script>-->
+<!--        document.getElementById('file-input').addEventListener('change', function() {-->
+<!--            const submitButton = document.getElementById('submit-button');-->
+<!--            if (this.files.length > 0) {-->
+<!--                submitButton.classList.add('active');-->
+<!--            } else {-->
+<!--                submitButton.classList.remove('active');-->
+<!--            }-->
+<!--        });-->
+
+<!--        document.getElementById('upload-form').addEventListener('submit', function(event) {-->
+<!--            const fileInput = document.getElementById('file-input');-->
+<!--            if (fileInput.files.length === 0) {-->
+<!--                event.preventDefault();-->
+<!--                alert('Будь ласка, виберіть файл перед завантаженням.');-->
+<!--            }-->
+<!--        });-->
+<!--    </script>-->
+
 </body>
 </html>

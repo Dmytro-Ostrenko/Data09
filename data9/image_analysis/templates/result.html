@@ -139,6 +139,9 @@
         body {
             background: linear-gradient(to bottom right, #d0d0d0, #ffffff);
             background-image: url('https://www.europarl.europa.eu/resources/library/images/20230607PHT95601/20230607PHT95601_original.jpg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 110%;
             color: white;
             font-family: Arial, sans-serif;
             margin: 0;
@@ -177,13 +180,26 @@
             background-color: white;
         }
 
-        .result-text {
+        .result-text-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            border: 10px double #333;
             margin-left: 20px;
+            width: 100%;
+            max-width: 700px;
+            text-align: center;
+            box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
+        }
+
+        .result-text {
+<!--            margin-left: 20px;-->
             font-size: 1.5em;
             color: #000033;
             font-weight: bold;
-            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
-            width: 650px;
+            margin: 0;
+<!--            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);-->
+<!--            width: 650px;-->
         }
 
         .btn-back {
@@ -226,7 +242,10 @@
         {% for result in results %}
             <div class="result-item">
                 <img src="{{ result.uploaded_image_url }}" alt="Зображення користувача" class="img-fluid">
-                <div class="result-text">{{ result.result_text }}</div>
+<!--                <div class="result-text">{{ result.result_text }}</div>-->
+                <div class="result-text-container">
+                    <p class="result-text">{{ result.result_text }}</p>
+                </div>
             </div>
         {% endfor %}
         <div class="d-flex justify-content-center">

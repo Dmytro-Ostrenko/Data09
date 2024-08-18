@@ -1,4 +1,5 @@
 import os
+import random
 
 import cloudinary
 import cloudinary.uploader
@@ -13,7 +14,7 @@ from utils.py_logger import get_logger
 logger = get_logger(__name__)
 
 model = load_model('my_cnn_model.keras')
-upload_dir = os.path.join('data9', 'image_analysis', '../media')
+# upload_dir = os.path.join('data9', 'image_analysis', '../media')
 
 
 def index(request):
@@ -21,7 +22,7 @@ def index(request):
     return render(request, 'index.html')
 
 
-def process_file(request): # todo зберігати в клаудінарі замість media
+def process_file(request):
     logger.info("Started process file")
     """Функція яка обробляє файл та робить предікт на нього."""
     show_upload_button = False
@@ -31,13 +32,14 @@ def process_file(request): # todo зберігати в клаудінарі з�
 
     if request.method == 'POST' and request.FILES.getlist('uploaded_files'):
         uploaded_files = request.FILES.getlist('uploaded_files')
-        fs = FileSystemStorage()
+        # fs = FileSystemStorage()
 
         for uploaded_file in uploaded_files:
-            filename = fs.save(uploaded_file.name, uploaded_file)
-            uploaded_image_url = fs.url(filename)
-            # upload_result = cloudinary.uploader.upload(uploaded_file)
-            # uploaded_image_url = upload_result['url']
+            # filename = fs.save(uploaded_file.name, uploaded_file)
+            # uploaded_image_url = fs.url(filename)
+            public_id = f'PhotoClassifier/{random.randint(1, 1000000)}'
+            upload_result = cloudinary.uploader.upload(uploaded_file, public_id=public_id, overwrite=True)
+            uploaded_image_url = upload_result['url']
 
             img = Image.open(uploaded_file)
             if img.mode != 'RGB':
