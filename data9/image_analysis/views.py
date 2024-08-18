@@ -1,4 +1,5 @@
 import os
+import random
 
 import cloudinary
 import cloudinary.uploader
@@ -34,10 +35,11 @@ def process_file(request): # todo зберігати в клаудінарі з�
         fs = FileSystemStorage()
 
         for uploaded_file in uploaded_files:
-            filename = fs.save(uploaded_file.name, uploaded_file)
-            uploaded_image_url = fs.url(filename)
-            # upload_result = cloudinary.uploader.upload(uploaded_file)
-            # uploaded_image_url = upload_result['url']
+            # filename = fs.save(uploaded_file.name, uploaded_file)
+            # uploaded_image_url = fs.url(filename)
+            public_id = f'PhotoClassifier/{random.randint(1, 1000000)}'
+            upload_result = cloudinary.uploader.upload(uploaded_file, public_id=public_id, overwrite=True)
+            uploaded_image_url = upload_result['url']
 
             img = Image.open(uploaded_file)
             if img.mode != 'RGB':
