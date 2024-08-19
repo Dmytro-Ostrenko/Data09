@@ -10,10 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
-from pathlib import Path
 import os
-import cloudinary
-import cloudinary.uploader
+from pathlib import Path
+
 import cloudinary.api
 from dotenv import load_dotenv
 
