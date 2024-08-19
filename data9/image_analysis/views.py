@@ -14,6 +14,10 @@ from utils.py_logger import get_logger
 logger = get_logger(__name__)
 
 model = load_model('my_cnn_model.keras')
+model_lenet = load_model('lenet_best_model.keras')
+model_lenettune_best = load_model('lenettune_best_model.keras')
+
+
 # upload_dir = os.path.join('data9', 'image_analysis', '../media')
 
 
