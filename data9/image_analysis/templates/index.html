@@ -142,29 +142,85 @@
         <p>Відкрийте для себе силу штучного інтелекту і машинного навчання.</p>
         <form id="upload-form" action="{% url 'process' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-<!--            <input type="file" name="uploaded_file" id="file-input"/>-->
-<!--            <input type="file" name="uploaded_files" id="file-input" accept="image/*" multiple/>-->
-<!--            <input type="file" name="uploaded_files" id="file-input" multiple/>-->
-<!--            <div class="upload-container">-->
-<!--                <button id="submit-button" type="submit" class="btn btn-primary btn-lg btn-upload">Завантажити файл-->
-<!--                </button>-->
-<!--            </div>-->
+
+
             <div class="file-input-wrapper">
-                <input type="file" name="uploaded_files" id="file-input" multiple class="file-input"/>
-                <button type="button" class="btn btn-primary btn-lg btn-upload" id="file-select-button">Вибрати файл</button>
+                <input type="file" name="uploaded_files" id="file-input" multiple class="file-input" accept="image/*"/>
+                <button type="button" class="btn btn-primary btn-lg btn-upload" id="file-select-button">Вибрати файл
+                </button>
             </div>
-            <div class="upload-container">
-                <button id="submit-button" type="submit" class="btn btn-primary btn-lg btn-upload">Старт роботи нейромережі</button>
+
+
+            <div class="model-selection">
+                <p>Виберіть модель для аналізу:</p>
+                <div class="btn-group" role="group" aria-label="Model selection">
+                    <button type="submit" name="model_type" value="lenet" class="btn btn-secondary btn-lg">LeNet
+                    </button>
+                    <button type="submit" name="model_type" value="lenettune" class="btn btn-secondary btn-lg">
+                        LeNet-Tune
+                    </button>
+                    <button type="submit" name="model_type" value="vgg16" class="btn btn-secondary btn-lg">VGG16
+                    </button>
+                    <button type="submit" name="model_type" value="cnn" class="btn btn-secondary btn-lg">CNN</button>
+                </div>
             </div>
+            <!-- Ввод порога уверенности -->
+            <div class="confidence-threshold">
+                <p>Введіть поріг впевненості (0 - 1):</p>
+                <input type="number" name="confidence_threshold" step="0.01" min="0" max="1" value="0.70"
+                       class="form-control" style="width: 80px;"/>
+            </div>
+            <style>
+                .confidence-threshold {
+                    text-align: center; /* Центрируем текст и элементы внутри блока */
+                    margin-bottom: 15px; /* Отступ снизу, если нужно */
+                }
+
+                .confidence-threshold p {
+                    margin-bottom: 10px; /* Отступ между текстом и полем ввода */
+                }
+
+                .confidence-threshold .form-control {
+                    display: inline-block; /* Стилизуем поле как встроенный блок для центрирования */
+                }
+            </style>
             <div class="progress-container">
                 <div class="progress-bar" id="progress-bar">0%</div>
             </div>
         </form>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+96DZZf+kAYKeElvcxfgDzpmkg8K6" crossorigin="anonymous">
-    </script>
+
+    <style>
+        .file-input-wrapper {
+            margin-bottom: 15px;
+        }
+
+        .model-selection {
+            margin-bottom: 15px;
+        }
+
+        .btn-group .btn {
+            margin-right: 5px;
+        }
+
+        .progress-container {
+            margin-top: 15px;
+            height: 25px;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0;
+            background-color: #4caf50;
+            text-align: center;
+            color: white;
+            line-height: 25px;
+        }
+    </style>
 
     <script>
         document.getElementById('file-select-button').addEventListener('click', function() {
@@ -208,25 +264,3 @@
             }, 500); // Simulate progress every 0.5 seconds
         }
     </script>
-
-<!--    <script>-->
-<!--        document.getElementById('file-input').addEventListener('change', function() {-->
-<!--            const submitButton = document.getElementById('submit-button');-->
-<!--            if (this.files.length > 0) {-->
-<!--                submitButton.classList.add('active');-->
-<!--            } else {-->
-<!--                submitButton.classList.remove('active');-->
-<!--            }-->
-<!--        });-->
-
-<!--        document.getElementById('upload-form').addEventListener('submit', function(event) {-->
-<!--            const fileInput = document.getElementById('file-input');-->
-<!--            if (fileInput.files.length === 0) {-->
-<!--                event.preventDefault();-->
-<!--                alert('Будь ласка, виберіть файл перед завантаженням.');-->
-<!--            }-->
-<!--        });-->
-<!--    </script>-->
-
-</body>
-</html>
