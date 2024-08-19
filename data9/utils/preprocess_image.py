@@ -14,6 +14,8 @@ model_vgg16 = load_model("vgg16tune_best_model.keras")
 
 
 def preprocess_image(img):
+    if img.mode != 'RGB':
+        img = img.convert('RGB')
     img = img.resize((32, 32))
     img_array = img_to_array(img)
     img_array = img_array / 255.0
