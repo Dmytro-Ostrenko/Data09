@@ -10,7 +10,7 @@ model_test = load_model("my_cnn_model.keras")
 model_lenet = load_model("lenet_best_model.keras")
 model_lenettune_best = load_model("lenettune_best_model.keras")
 model_cnn = load_model("cnn_model1_r1.keras")
-model_vgg16 = load_model("model2_vgg16.keras")
+model_vgg16 = load_model("vgg16tune_best_model.keras")
 
 
 def preprocess_image(img):
