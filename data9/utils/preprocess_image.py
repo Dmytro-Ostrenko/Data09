@@ -9,7 +9,7 @@ logger = get_logger(__name__)
 model_lenet = load_model("models/lenet_best_model.keras")
 model_lenettune_best = load_model("models/lenettune_best_model.keras")
 model_cnn = load_model("models/cnn_model1_r1.keras")
-model_vgg16 = load_model("models/vgg16tune_best_model.keras")
+#model_vgg16 = load_model("models/vgg16tune_best_model.keras")
 
 
 def preprocess_image(img):
@@ -29,13 +29,13 @@ def get_model(model_type):
         return model_lenet
     elif model_type == "lenettune":
         return model_lenettune_best
-    elif model_type == "vgg16":
-        return model_vgg16
+    # elif model_type == "vgg16":
+    #     return model_vgg16
     elif model_type == "cnn":
         return model_cnn
     else:
         logger.error("Invalid model type selected")
-        return None
+        return model_lenet
 
 
 def validate_confidence_threshold(threshold):
