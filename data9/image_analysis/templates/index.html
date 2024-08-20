@@ -31,7 +31,7 @@
         .hero-text {
             text-align: center;
             position: absolute;
-            top: 25%;
+            top: 35%;
             left: 50%;
             transform: translate(-50%, -50%);
             color: white;
@@ -110,7 +110,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-custom">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Фундамент</a>
+            <a class="navbar-brand" href="{% url 'index' %}">Фундамент</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -121,16 +121,16 @@
                         <a class="nav-link" href="#">Про нашу команду</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Модель LeNet</a>
+                        <a class="nav-link" href="{% url 'model_LeNet' %}">Модель LeNet</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Модель LeNet-tuned</a>
+                        <a class="nav-link" href="{% url 'model_LeNet_tuned' %}">Модель LeNet-tuned</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Модель VGG16</a>
+                        <a class="nav-link" href="{% url 'model_VGG16' %}">Модель VGG16</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Модель CNN</a>
+                        <a class="nav-link" href="{% url 'model_CNN' %}">Модель CNN</a>
                     </li>
                 </ul>
             </div>
@@ -172,16 +172,16 @@
             </div>
             <style>
                 .confidence-threshold {
-                    text-align: center; /* Центрируем текст и элементы внутри блока */
-                    margin-bottom: 15px; /* Отступ снизу, если нужно */
+                    text-align: center;
+                    margin-bottom: 15px;
                 }
 
                 .confidence-threshold p {
-                    margin-bottom: 10px; /* Отступ между текстом и полем ввода */
+                    margin-bottom: 10px;
                 }
 
                 .confidence-threshold .form-control {
-                    display: inline-block; /* Стилизуем поле как встроенный блок для центрирования */
+                    display: inline-block;
                 }
             </style>
             <div class="progress-container">

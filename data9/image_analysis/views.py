@@ -1,15 +1,19 @@
 import random
+import os
 
 import cloudinary
 import cloudinary.api
 import cloudinary.uploader
-from django.shortcuts import render
+from django.core.files.storage import FileSystemStorage
+from django.http import FileResponse
+from django.shortcuts import render, redirect
 from PIL import Image
 from utils.preprocess_image import get_model
 from utils.preprocess_image import make_prediction
 from utils.preprocess_image import preprocess_image
 from utils.preprocess_image import validate_confidence_threshold
 from utils.py_logger import get_logger
+from data9.settings import BASE_DIR
 
 logger = get_logger(__name__)
 
@@ -69,3 +73,25 @@ def process_file(request):
         "result.html",
         {"results": results, "show_upload_button": show_upload_button},
     )
+
+def model_LeNet(request):
+    return render(request, 'model_LeNet.html')
+
+def model_LeNet_tuned(request):
+    return render(request, 'model_LeNet_tuned.html')
+
+def model_VGG16(request):
+    return render(request, 'model_VGG16.html')
+
+def model_CNN(request):
+    return render(request, 'model_CNN.html')
+
+
+def download_model(request, model_type):
+    model_path = os.path.join(BASE_DIR, f"{model_type}_model.keras")
+
+    if os.path.exists(model_path):
+        response = FileResponse(open(model_path, 'rb'), as_attachment=True, filename=f"{model_type}_model.keras")
+        return response
+    else:
+        return render(request, 'error.html', {'message': 'Model file not found'})
