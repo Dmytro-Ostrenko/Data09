@@ -35,8 +35,8 @@ def get_model(model_type):
         return model_lenet
     elif model_type == "lenettune":
         return model_lenettune_best
-    # elif model_type == "vgg16":
-    #     return model_vgg16
+    elif model_type == "vgg16":
+        return model_vgg16
     elif model_type == "cnn":
         return model_cnn
     else:
