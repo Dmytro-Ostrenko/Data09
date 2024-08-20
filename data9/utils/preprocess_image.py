@@ -14,13 +14,14 @@ logger = get_logger(__name__)
 model_lenet = get_lenet_model()
 model_lenettune_best = get_lenet_tune_model()
 model_cnn = get_snn_model()
-
 model_vgg16 = get_vgg16_model()
 
 
+
 def preprocess_image(img):
-    if img.mode != "RGB":
-        img = img.convert("RGB")
+    """Перевірка на ргб та створення масиву зображення."""
+    if img.mode != 'RGB':
+        img = img.convert('RGB')
     img = img.resize((32, 32))
     img_array = img_to_array(img)
     img_array = img_array / 255.0
@@ -34,13 +35,13 @@ def get_model(model_type):
         return model_lenet
     elif model_type == "lenettune":
         return model_lenettune_best
-    elif model_type == "vgg16":
-        return model_vgg16
+    # elif model_type == "vgg16":
+    #     return model_vgg16
     elif model_type == "cnn":
         return model_cnn
     else:
         logger.error("Invalid model type selected")
-        return None
+        return model_lenet
 
 
 def validate_confidence_threshold(threshold):
