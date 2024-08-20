@@ -1,21 +1,26 @@
 import os
-from dotenv import load_dotenv
+
 import numpy as np
-from tensorflow.keras.models import load_model
+from dotenv import load_dotenv
 from tensorflow.keras.preprocessing.image import img_to_array
+from utils.get_models import get_lenet_model
+from utils.get_models import get_lenet_tune_model
+from utils.get_models import get_snn_model
+from utils.get_models import get_vgg16_model
 from utils.py_logger import get_logger
+
 load_dotenv()
 logger = get_logger(__name__)
-model_test = load_model("models/my_cnn_model.keras")
-model_lenet = load_model("models/lenet_best_model.keras")
-model_lenettune_best = load_model("models/lenettune_best_model.keras")
-model_cnn = load_model("models/cnn_model1_r1.keras")
-model_vgg16 = load_model("models/vgg16tune_best_model.keras")
+model_lenet = get_lenet_model()
+model_lenettune_best = get_lenet_tune_model()
+model_cnn = get_snn_model()
+
+model_vgg16 = get_vgg16_model()
 
 
 def preprocess_image(img):
-    if img.mode != 'RGB':
-        img = img.convert('RGB')
+    if img.mode != "RGB":
+        img = img.convert("RGB")
     img = img.resize((32, 32))
     img_array = img_to_array(img)
     img_array = img_array / 255.0
@@ -47,7 +52,7 @@ def validate_confidence_threshold(threshold):
         return threshold
     except ValueError as e:
         logger.error(f"Invalid confidence threshold value: {e}")
-        threshold = float(os.getenv('CONFIDENCE_THRESHOLD', 0.70))
+        threshold = float(os.getenv("CONFIDENCE_THRESHOLD", 0.70))
         return threshold
 
 
@@ -57,7 +62,7 @@ def make_prediction(model, img_array, confidence_threshold):
     predicted_class = np.argmax(prediction)
     confidence = prediction[0][predicted_class]
 
-    class_labels = os.getenv('MODEL_CLASSES', '').split(',')
+    class_labels = os.getenv("MODEL_CLASSES", "").split(",")
 
     if confidence >= confidence_threshold:
         result_text = f"На картинці зображено {class_labels[predicted_class]} із вірогідністю у {confidence * 100:.2f}%"
