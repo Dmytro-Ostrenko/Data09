@@ -6,7 +6,6 @@ from tensorflow.keras.preprocessing.image import img_to_array
 from utils.py_logger import get_logger
 load_dotenv()
 logger = get_logger(__name__)
-model_test = load_model("models/my_cnn_model.keras")
 model_lenet = load_model("models/lenet_best_model.keras")
 model_lenettune_best = load_model("models/lenettune_best_model.keras")
 model_cnn = load_model("models/cnn_model1_r1.keras")
@@ -14,6 +13,7 @@ model_vgg16 = load_model("models/vgg16tune_best_model.keras")
 
 
 def preprocess_image(img):
+    """Перевірка на ргб та створення масиву зображення."""
     if img.mode != 'RGB':
         img = img.convert('RGB')
     img = img.resize((32, 32))
