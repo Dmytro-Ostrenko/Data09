@@ -108,20 +108,20 @@ python manage.py runserver
 
 1. **Dockerfile** :whale::
 
-`Dockerfile` для створення Docker-образу, який дозволить розміщувати та запускати нашу програму в контейнеризованому середовищі. `Dockerfile` повинен включати всі необхідні інструкції для створення образу, такі як вибір базового образу, копіювання вихідного коду програми до контейнера, встановлення необхідних залежностей та визначення команди для запуску програми.
+`Dockerfile` необхіден створення Docker-образу, що дозволяє розміщувати і запускати програму в контейнеризованому середовищі. `Dockerfile` у `Data09/data9/` включає всі необхідні інструкції для створення образу, такі як вибір базового образу, копіювання вихідного коду програми до контейнера, встановлення необхідних залежностей та визначення команди для запуску програми.
 
 2. **Інтеграція Docker Compose** :whale::whale::
 
-Інструмент Docker Compose для спрощення процесу розгортання та управління нашим проєктом у середовищі Docker. Файл `docker-compose.yml`, який описує параметри, мережі та томи, необхідні для проєкту. Цей файл повинен дозволяти запускати весь проєкт за допомогою однієї команди `docker-compose up`, автоматизуючи створення та запуск необхідних Docker-контейнерів.
+Інструмент Docker Compose необхіден для спрощення процесу розгортання та управління нашим проєктом у середовищі Docker. Файл `docker-compose.yml` у `Data09/data9/`, який описує параметри, мережі та томи, необхідні для проєкту. Цей файл дозволяє запускати весь проєкт за допомогою однієї команди `docker-compose up`, автоматизуючи створення та запуск необхідних Docker-контейнерів.
 
 3. **Збірка та завантаження Docker-образу на Docker Hub** :rocket::
 
-Після налаштування `Dockerfile` та `docker-compose.yml` ви можете створити Docker-образ і завантажити його на Docker Hub для легкого доступу та розгортання:
+Після налаштування `Dockerfile` та `docker-compose.yml` створимо Docker-образ і завантажимо його на Docker Hub для легкого доступу та розгортання:
 
     ```
-    docker build -t ваш_користувач/fundament-app .
+    docker build -t User/fundament-app .
     docker login
-    docker push ваш_користувач/fundament-app
+    docker push User/fundament-app
     ```
 
 4. **Розгортання програми за допомогою Docker Compose** :white_check_mark::
@@ -266,6 +266,38 @@ python manage.py runserver
 
 
 You can also quickly [download](https://github.com/Dmytro-Ostrenko/Data09/archive/refs/heads/main.zip) or [clone](https://github.com/Dmytro-Ostrenko/Data09.git).
+
+### Docker Containerization
+
+To containerize the program in Docker and upload the image to Docker Hub, follow these steps:
+
+1. **Dockerfile** :whale::
+
+    The `Dockerfile` is required to create a Docker image, allowing the deployment and execution of the program in a containerized environment. The `Dockerfile` located in `Data09/data9/` includes all the necessary instructions for building the image, such as selecting a base image, copying the source code into the container, installing the required dependencies, and defining the command to run the application.
+
+2. **Docker Compose Integration** :whale::whale::
+
+    The Docker Compose tool is necessary to simplify the deployment and management of our project in a Docker environment. The `docker-compose.yml` file located in `Data09/data9/` describes the services, networks, and volumes needed for the project. This file allows running the entire project with a single `docker-compose up` command, automating the creation and launch of the required Docker containers.
+
+3. **Build and Push the Docker Image to Docker Hub** :rocket::
+
+    After configuring the `Dockerfile` and `docker-compose.yml`, we will build the Docker image and push it to Docker Hub for easy access and deployment:
+
+    ```bash
+    docker build -t User/fundament-app .
+    docker login
+    docker push User/fundament-app
+    ```
+
+4. **Deploy the Application with Docker Compose** :white_check_mark::
+
+    Finally, deploy the application using Docker Compose:
+
+    ```bash
+    docker-compose up
+    ```
+
+These steps will help you set up the "Fundament" application with Docker, making it easier to deploy and run in different environments.
 
 ## <p align="center">:card_index: Types of Neural Networks Used in the Project</p>
 
