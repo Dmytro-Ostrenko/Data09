@@ -10,15 +10,48 @@
 
 ## Встановлення
 
-Перед тим, як Ви почнете використовувати веб-інтерфейс "Фундамент" із штучними нейронними мережами, для розпізнавання картинок, Вам потрібно встановити його. Дотримуйтесь цих кроків:
+Перед тим, як ви почнете використовувати веб-інтерфейс "Фундамент" із штучними нейронними мережами, для розпізнавання картинок, Вам потрібно встановити його. Дотримуйтесь цих кроків:
 
-1. Клонуйте репозиторій на свій комп'ютер:    
-:white_check_mark: git clone https://github.com/Dmytro-Ostrenko/Data09
+1. **Клонування репозиторію на свій комп'ютер** :white_check_mark::   
 
-2. Перейдіть в каталог проєкту:    
-:white_check_mark:cd Data09
+```
+git clone https://github.com/Dmytro-Ostrenko/Data09
+```
 
-3. Встановіть "Фундамент" як Python-пакет:       
-:white_check_mark: pip install .   
+2. **Перехід у каталог проєкту** :white_check_mark::  
+
+```
+cd Data09
+```
+
+3. **Встановлення залежностей з `requirements.txt`** :white_check_mark::
+   
+```
+pip install -r requirements.txt 
+```
+
+4. **Створення та активація віртуального середовища** :white_check_mark::
+   
+```
+python -m venv venv
+source venv/bin/activate  # Для Linux/MacOS
+.\venv\Scripts\activate   # Для Windows
+```
+
+5. **Оновлення залежностей (опціонально)** :white_check_mark::
+
+```
+pip install --upgrade -r requirements.txt
+```
+
+6. **Запуск застосунку** :white_check_mark::
+
+```
+cd Data09/data9
+python manage.py runserver
+```
+
+
+Або можна швидко [скачати](https://github.com/Dmytro-Ostrenko/Data09/archive/refs/heads/main.zip) або [клонувати](https://github.com/Dmytro-Ostrenko/Data09.git).
 
 
