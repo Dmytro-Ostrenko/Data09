@@ -17,7 +17,7 @@
 
 ### <p align="center">Borys Kuchyn :calling:[Github](https://github.com/Zpfamily) :postbox: [Linkedin](https://www.linkedin.com/in/borys-kuchyn-1316581a4/)</p>
 
-### <p align="center">Dmytro Ostrenko  :calling:[Github](https://github.com/Dmytro-Ostrenko) :postbox: [Linkedin](https://www.linkedin.com/in/volodymyr-rizun-40103219b/)</p>
+### <p align="center">Dmytro Ostrenko  :calling:[Github](https://github.com/Dmytro-Ostrenko) :postbox: [Linkedin](https://www.linkedin.com/in/dmytro-ostrenko/)</p>
 ---
 
 ## <p align="center">:open_file_folder: Технології, які були використані у проекті</p> 
