@@ -1,5 +1,6 @@
 import os
-
+import sys
+sys.path.append(os.getcwd())
 import numpy as np
 from dotenv import load_dotenv
 from tensorflow.keras.preprocessing.image import img_to_array
