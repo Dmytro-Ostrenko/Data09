@@ -150,6 +150,12 @@
                 </button>
             </div>
 
+            <!-- Ввод порога уверенности -->
+            <div class="confidence-threshold">
+                <p>Введіть поріг впевненості (0 - 1):</p>
+                <input type="number" name="confidence_threshold" step="0.01" min="0" max="1" value="0.70"
+                       class="form-control" style="width: 80px;"/>
+            </div>
 
             <div class="model-selection">
                 <p>Виберіть модель для аналізу:</p>
@@ -164,12 +170,7 @@
                     <button type="submit" name="model_type" value="cnn" class="btn btn-secondary btn-lg">CNN</button>
                 </div>
             </div>
-            <!-- Ввод порога уверенности -->
-            <div class="confidence-threshold">
-                <p>Введіть поріг впевненості (0 - 1):</p>
-                <input type="number" name="confidence_threshold" step="0.01" min="0" max="1" value="0.70"
-                       class="form-control" style="width: 80px;"/>
-            </div>
+
             <style>
                 .confidence-threshold {
                     text-align: center;

@@ -88,10 +88,10 @@ def model_CNN(request):
 
 
 def download_model(request, model_type):
-    model_path = os.path.join(BASE_DIR, f"{model_type}_model.keras")
+    model_path = os.path.join(BASE_DIR, f"{model_type}.keras")
 
     if os.path.exists(model_path):
-        response = FileResponse(open(model_path, 'rb'), as_attachment=True, filename=f"{model_type}_model.keras")
+        response = FileResponse(open(model_path, 'rb'), as_attachment=True, filename=f"{model_type}.keras")
         return response
     else:
         return render(request, 'error.html', {'message': 'Model file not found'})
