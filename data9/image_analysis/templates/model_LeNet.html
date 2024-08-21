@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,24 +32,38 @@
 
         .hero-text {
             text-align: center;
-            position: absolute;
-            top: 35%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            position: relative;
+            padding: 20px 0;
             color: white;
             font-weight: bold;
             text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
+            margin-top: 50px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .hero-text h1 {
-            font-size: 4em;
+            font-size: 3em;
             font-weight: bold;
             text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
         }
 
         .hero-text p {
+            color: black;
             font-size: 1.5em;
+            font-weight: bold;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .description-box {
+            background-color: white;
+            color: black;
+            border: 2px solid black;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
         }
 
         .upload-container {
@@ -139,23 +155,47 @@
     </nav>
 
     <div class="hero-text">
-        <h1 class="text-center">Модель LeNet</h1>
+        <div class="container">
+            <h1 class="text-center">Модель LeNet</h1>
 
         <!-- Опис моделі LeNet -->
-        <div class="row mt-4">
-            <div class="col-lg-8 offset-lg-2">
-                <p>Модель LeNet - це класична нейронна мережа для розпізнавання зображень, розроблена Yann LeCun.</p>
+            <div class="description-box">
+                <p>Архітектура моделі, яка будується в цьому коді, є адаптацією відомої архітектури AlexNet до задачі класифікації на датасеті CIFAR-10. AlexNet — це глибока нейронна мережа, яка стала відомою після перемоги в змаганні ImageNet у 2012 році. Ось детальний опис архітектури моделі:
+                    1. Conv2D (96 фільтрів, розмір 3x3, крок 1, ReLU активація, padding='same'): Перший шар згортки з 96 фільтрами, який обробляє вхідні зображення розміром 32x32x3.
+                    2. BatchNormalization: Нормалізація батчу для стабілізації та прискорення навчання.
+                    3. MaxPooling2D (розмір 2x2, крок 2): Максимальний пулінг зменшує розмірність виходу згорткового шару.
+                    4. Conv2D (256 фільтрів, розмір 3x3, ReLU активація, padding='same'): Другий шар згортки з 256 фільтрами.
+                    5. BatchNormalization: Нормалізація батчу.
+                    6. MaxPooling2D (розмір 2x2, крок 2): Максимальний пулінг.
+                    7. Conv2D (384 фільтрів, розмір 3x3, ReLU активація, padding='same'): Третій шар згортки з 384 фільтрами.
+                    8. BatchNormalization: Нормалізація батчу.
+                    9. Conv2D (384 фільтрів, розмір 3x3, ReLU активація, padding='same'): Четвертий шар згортки з 384 фільтрами.
+                    10. BatchNormalization: Нормалізація батчу.
+                    11. Conv2D (256 фільтрів, розмір 3x3, ReLU активація, padding='same'): П'ятий шар згортки з 256 фільтрами.
+                    12. BatchNormalization: Нормалізація батчу.
+                    13. MaxPooling2D (розмір 2x2, крок 2): Максимальний пулінг.
+                    14. Flatten: Згортання виходу згорткових шарів у одномірний вектор.
+                    15. Dense (4096 нейронів, ReLU активація): Перший повнозв'язний шар з 4096 нейронами.
+                    16. Dropout (0.5): Регуляризація за допомогою dropout для запобігання перенавчанню.
+                    17. Dense (4096 нейронів, ReLU активація): Другий повнозв'язний шар з 4096 нейронами.
+                    18. Dropout (0.5): Регуляризація за допомогою dropout.
+                    19. Dense (10 нейронів, softmax активація): Останній повнозв'язний шар з 10 нейронами для класифікації (CIFAR-10 має 10 класів).
+                    Модель компілюється з оптимізатором Adam та швидкістю навчання 0.001, функцією втрат `categorical_crossentropy` і метрикою `accuracy`.
+                    Для покращення навчання використовується аугментація даних за допомогою `ImageDataGenerator`, який вносить різноманітні трансформації в тренувальні зображення.
+                    Навчання моделі відбувається протягом 100 епох, і найкраща модель зберігається за допомогою `ModelCheckpoint`, який відстежує валідаційну точність.
+                    Після навчання візуалізуються точність та втрати на тренувальних і валідаційних даних, а також оцінюється точність збереженої моделі на тестових даних.
+                </p>
             </div>
-        </div>
 
-        <div class="row mt-5">
-            <div class="col-lg-8 offset-lg-2">
-                <h1 class="text-center">Pезультати роботи моделі LeNet</h1>
-                <p>Тут можна графіки</p>
+
+            <h1 class="text-center mt-5">Результати роботи моделі</h1>
+            <div class="description-box">
+                <img src="{% static 'Alex.png' %}">
             </div>
         </div>
 
         <div class="centered-container">
-            <a href="{% url 'download_model' model_type='lenet_best' %}" class="btn btn-custom">Скачати модель LeNet</a>
+            <a href="{% url 'download_model' model_type='lenet_best_model' %}" class="btn btn-custom">Скачати модель LeNet</a>
         </div>
     </div>
+</body>
