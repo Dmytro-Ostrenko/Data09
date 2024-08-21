@@ -168,5 +168,6 @@ lenet_best_model.keras
 lenettune_best_model.keras
 utils/get_models.py
 vgg16tune_best_model.keras
-
+mobnet_best_model.keras
+mobilenet_best_model.keras
 
