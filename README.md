@@ -52,6 +52,6 @@ python manage.py runserver
 ```
 
 
-Або можна швидко [скачати](https://github.com/Dmytro-Ostrenko/Data09/archive/refs/heads/main.zip) або [клонувати](https://github.com/Dmytro-Ostrenko/Data09.git).
+Також можна швидко [скачати](https://github.com/Dmytro-Ostrenko/Data09/archive/refs/heads/main.zip)  чи [клонувати](https://github.com/Dmytro-Ostrenko/Data09.git).
 
 
