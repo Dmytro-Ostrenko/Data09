@@ -6,6 +6,18 @@
 
 Застосунок "Фудамент" - це веб-сервіс для класифікації зображень, заснований на використанні згорткових нейронних мереж (CNN) та оптимізований для роботи із датаcетоv [cifar-10](https://www.kaggle.com/c/cifar-10). . Проект дозволяє користувачам завантажувати зображення, які класифікуються за допомогою попередньо тренованих моделей, таких VGG16. Сервіс підтримує широкий спектр функцій, включаючи завантаження зображень, тренування моделей, перевірку якості зображень, а також детальне відображення результатів класифікації. Особлива увага приділяється оптимізації моделей для зменшення їх розміру та підвищення точності класифікації, що робить сервіс ефективним інструментом для обробки зображень з cifar-10.
 
+## <p align="center">:e-mail: Команда проекту</p>
+
+[Volodymyr Rizun](https://github.com/VolodymyrRiz) [Linkedin](https://www.linkedin.com/in/volodymyr-rizun-40103219b/) 
+
+[Vladyslav Skopenko](https://github.com/VladSkopenko) [Linkedin](https://www.linkedin.com/in/vladyslav-skopenko/) 
+
+[Viktoriia Kalachova](https://github.com/ViKalachova) [Linkedin](https://www.linkedin.com/in/viktoriia-kalachova-746228282/) 
+
+[Borys Kuchyn](https://github.com/Zpfamily) [Linkedin](https://www.linkedin.com/in/borys-kuchyn-1316581a4/) 
+
+[Dmytro Ostrenko](https://github.com/Dmytro-Ostrenko) [Linkedin](https://www.linkedin.com/in/volodymyr-rizun-40103219b/) 
+
 ## <p align="center">:open_file_folder: Технології, які були використані у проекті</p> 
 
 ## <p align="center">:scroll: Головні функції застосунку</p>
