@@ -118,10 +118,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Про нашу команду</a>
+                        <a class="nav-link" href="{% url 'team_info' %}">Про нашу команду</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'model_LeNet' %}">Модель LeNet</a>
+                        <a class="nav-link" href="{% url 'model_LeNet' %}">Модель AlexNet</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'model_LeNet_tuned' %}">Модель LeNet-tuned</a>
@@ -130,7 +130,7 @@
                         <a class="nav-link" href="{% url 'model_VGG16' %}">Модель VGG16</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'model_CNN' %}">Модель CNN</a>
+                        <a class="nav-link" href="{% url 'model_CNN' %}">Модель MobileNet</a>
                     </li>
                 </ul>
             </div>
@@ -160,14 +160,14 @@
             <div class="model-selection">
                 <p>Виберіть модель для аналізу:</p>
                 <div class="btn-group" role="group" aria-label="Model selection">
-                    <button type="submit" name="model_type" value="lenet" class="btn btn-secondary btn-lg">LeNet
+                    <button type="submit" name="model_type" value="lenet" class="btn btn-secondary btn-lg">AlexNet
                     </button>
                     <button type="submit" name="model_type" value="lenettune" class="btn btn-secondary btn-lg">
                         LeNet-Tune
                     </button>
                     <button type="submit" name="model_type" value="vgg16" class="btn btn-secondary btn-lg">VGG16
                     </button>
-                    <button type="submit" name="model_type" value="cnn" class="btn btn-secondary btn-lg">CNN</button>
+                    <button type="submit" name="model_type" value="cnn" class="btn btn-secondary btn-lg">MobileNet</button>
                 </div>
             </div>
 

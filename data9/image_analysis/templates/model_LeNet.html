@@ -32,38 +32,44 @@
 
         .hero-text {
             text-align: center;
-            position: relative;
             padding: 20px 0;
             color: white;
-            font-weight: bold;
-            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
             margin-top: 50px;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
         }
 
         .hero-text h1 {
-            font-size: 3em;
+            font-size: 2.5em;
             font-weight: bold;
-            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
+            color: white
+            margin-bottom: 40px;
         }
 
         .hero-text p {
-            color: black;
-            font-size: 1.5em;
+            color: #333;
+            font-size: 1em;
             font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            word-wrap: break-word;
-            overflow-wrap: break-word;
+            margin-bottom: 20px;
+            text-align: justify;
         }
 
         .description-box {
-            background-color: white;
+            background-color: rgba(255, 255, 255, 0.8);
             color: black;
             border: 2px solid black;
             padding: 20px;
             border-radius: 10px;
             margin-top: 20px;
+            text-align: justify;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .description-box ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+
+        .description-box li {
+            margin-bottom: 10px;
         }
 
         .upload-container {
@@ -80,6 +86,7 @@
             cursor: pointer;
             font-weight: bold;
             display: inline-block;
+            transition: background-color 0.3s ease;
         }
 
         .btn-custom:hover {
@@ -118,9 +125,8 @@
 
         .centered-container {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 40px;
         }
-
     </style>
     <title>Головна сторінка</title>
 </head>
@@ -135,10 +141,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Про нашу команду</a>
+                        <a class="nav-link" href="{% url 'team_info' %}">Про нашу команду</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'model_LeNet' %}">Модель LeNet</a>
+                        <a class="nav-link" href="{% url 'model_LeNet' %}">Модель AlexNet</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'model_LeNet_tuned' %}">Модель LeNet-tuned</a>
@@ -147,7 +153,7 @@
                         <a class="nav-link" href="{% url 'model_VGG16' %}">Модель VGG16</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'model_CNN' %}">Модель CNN</a>
+                        <a class="nav-link" href="{% url 'model_CNN' %}">Модель MobileNet</a>
                     </li>
                 </ul>
             </div>
@@ -156,46 +162,49 @@
 
     <div class="hero-text">
         <div class="container">
-            <h1 class="text-center">Модель LeNet</h1>
+            <h1 class="text-center">Модель AlexNet</h1>
 
-        <!-- Опис моделі LeNet -->
+            <!-- Опис моделі AlexNet -->
             <div class="description-box">
-                <p>Архітектура моделі, яка будується в цьому коді, є адаптацією відомої архітектури AlexNet до задачі класифікації на датасеті CIFAR-10. AlexNet — це глибока нейронна мережа, яка стала відомою після перемоги в змаганні ImageNet у 2012 році. Ось детальний опис архітектури моделі:
-                    1. Conv2D (96 фільтрів, розмір 3x3, крок 1, ReLU активація, padding='same'): Перший шар згортки з 96 фільтрами, який обробляє вхідні зображення розміром 32x32x3.
-                    2. BatchNormalization: Нормалізація батчу для стабілізації та прискорення навчання.
-                    3. MaxPooling2D (розмір 2x2, крок 2): Максимальний пулінг зменшує розмірність виходу згорткового шару.
-                    4. Conv2D (256 фільтрів, розмір 3x3, ReLU активація, padding='same'): Другий шар згортки з 256 фільтрами.
-                    5. BatchNormalization: Нормалізація батчу.
-                    6. MaxPooling2D (розмір 2x2, крок 2): Максимальний пулінг.
-                    7. Conv2D (384 фільтрів, розмір 3x3, ReLU активація, padding='same'): Третій шар згортки з 384 фільтрами.
-                    8. BatchNormalization: Нормалізація батчу.
-                    9. Conv2D (384 фільтрів, розмір 3x3, ReLU активація, padding='same'): Четвертий шар згортки з 384 фільтрами.
-                    10. BatchNormalization: Нормалізація батчу.
-                    11. Conv2D (256 фільтрів, розмір 3x3, ReLU активація, padding='same'): П'ятий шар згортки з 256 фільтрами.
-                    12. BatchNormalization: Нормалізація батчу.
-                    13. MaxPooling2D (розмір 2x2, крок 2): Максимальний пулінг.
-                    14. Flatten: Згортання виходу згорткових шарів у одномірний вектор.
-                    15. Dense (4096 нейронів, ReLU активація): Перший повнозв'язний шар з 4096 нейронами.
-                    16. Dropout (0.5): Регуляризація за допомогою dropout для запобігання перенавчанню.
-                    17. Dense (4096 нейронів, ReLU активація): Другий повнозв'язний шар з 4096 нейронами.
-                    18. Dropout (0.5): Регуляризація за допомогою dropout.
-                    19. Dense (10 нейронів, softmax активація): Останній повнозв'язний шар з 10 нейронами для класифікації (CIFAR-10 має 10 класів).
-                    Модель компілюється з оптимізатором Adam та швидкістю навчання 0.001, функцією втрат `categorical_crossentropy` і метрикою `accuracy`.
-                    Для покращення навчання використовується аугментація даних за допомогою `ImageDataGenerator`, який вносить різноманітні трансформації в тренувальні зображення.
-                    Навчання моделі відбувається протягом 100 епох, і найкраща модель зберігається за допомогою `ModelCheckpoint`, який відстежує валідаційну точність.
-                    Після навчання візуалізуються точність та втрати на тренувальних і валідаційних даних, а також оцінюється точність збереженої моделі на тестових даних.
+                <p>
+                    Архітектура моделі, яка будується в цьому коді, є адаптацією відомої архітектури AlexNet до задачі класифікації на датасеті CIFAR-10. AlexNet — це глибока нейронна мережа, яка стала відомою після перемоги в змаганні ImageNet у 2012 році. Ось детальний опис архітектури моделі:
+                </p>
+                <ul>
+                    <li>Conv2D (96 фільтрів, розмір 3x3, крок 1, ReLU активація, padding='same')</li>
+                    <li>BatchNormalization</li>
+                    <li>MaxPooling2D (розмір 2x2, крок 2)</li>
+                    <li>Conv2D (256 фільтрів, розмір 3x3, ReLU активація, padding='same')</li>
+                    <li>BatchNormalization</li>
+                    <li>MaxPooling2D (розмір 2x2, крок 2)</li>
+                    <li>Conv2D (384 фільтрів, розмір 3x3, ReLU активація, padding='same')</li>
+                    <li>BatchNormalization</li>
+                    <li>Conv2D (384 фільтрів, розмір 3x3, ReLU активація, padding='same')</li>
+                    <li>BatchNormalization</li>
+                    <li>Conv2D (256 фільтрів, розмір 3x3, ReLU активація, padding='same')</li>
+                    <li>BatchNormalization</li>
+                    <li>MaxPooling2D (розмір 2x2, крок 2)</li>
+                    <li>Flatten</li>
+                    <li>Dense (4096 нейронів, ReLU активація)</li>
+                    <li>Dropout (0.5)</li>
+                    <li>Dense (4096 нейронів, ReLU активація)</li>
+                    <li>Dropout (0.5)</li>
+                    <li>Dense (10 нейронів, softmax активація)</li>
+                </ul>
+                <p>
+                    Модель компілюється з оптимізатором Adam та швидкістю навчання 0.001, функцією втрат `categorical_crossentropy` і метрикою `accuracy`. Для покращення навчання використовується аугментація даних за допомогою `ImageDataGenerator`, який вносить різноманітні трансформації в тренувальні зображення.
+                    Навчання моделі відбувається протягом 100 епох, і найкраща модель зберігається за допомогою `ModelCheckpoint`, який відстежує валідаційну точність. Після навчання візуалізуються точність та втрати на тренувальних і валідаційних даних, а також оцінюється точність збереженої моделі на тестових даних.
                 </p>
             </div>
 
-
             <h1 class="text-center mt-5">Результати роботи моделі</h1>
-            <div class="description-box">
-                <img src="{% static 'Alex.png' %}">
+            <div class="description-box text-center">
+                <img src="{% static 'Alex.png' %}" alt="Результати роботи моделі AlexNet">
             </div>
         </div>
 
         <div class="centered-container">
-            <a href="{% url 'download_model' model_type='lenet_best_model' %}" class="btn btn-custom">Скачати модель LeNet</a>
+            <a href="{% url 'download_model' model_type='lenet_best_model' %}" class="btn btn-custom">Скачати модель AlexNet</a>
         </div>
     </div>
 </body>
+</html>
