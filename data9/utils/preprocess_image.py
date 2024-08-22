@@ -83,9 +83,21 @@ def make_prediction(model, img_array, confidence_threshold):
     class_labels = os.getenv("MODEL_CLASSES", "").split(",")
 
     if confidence >= confidence_threshold:
-        result_text = f"На картинці зображено {class_labels[predicted_class]} із вірогідністю у {confidence * 100:.2f}%"
+        result_text = f"Поточне зображення не підходить для класифікації. Впевненість моделі становить: {confidence * 100:.2f}%. Завантажте, будь ласка, інше зображення."
     else:
         img = Image.fromarray((img_array[0] * 255).astype('uint8'))
         result_text = apply_filters(img, model, confidence_threshold)
 
     return result_text, confidence
+
+
+
+
+
+
+
+
+
+
+
+

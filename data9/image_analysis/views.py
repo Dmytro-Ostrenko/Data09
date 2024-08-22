@@ -79,7 +79,7 @@ def process_file(request):
 def model_alexnet(request):
     return render(request, 'model_alexnet.html')
 
-def model_LeNet_tuned(request):
+def model_LeNet(request):
     return render(request, 'model_LeNet_tuned.html')
 
 def model_VGG16(request):
