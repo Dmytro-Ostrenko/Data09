@@ -1,21 +1,20 @@
 import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from PIL import Image, ImageEnhance, ImageFilter
 import numpy as np
 from dotenv import load_dotenv
 from tensorflow.keras.preprocessing.image import img_to_array
-from utils.get_models import get_vgg16_model
-from utils.get_models import get_mobnet_model
-from utils.get_models import get_lenet_model
-from utils.get_models import get_alexnet_model
+from utils.get_models import get_vgg16_model, get_mobnet_model, get_lenet_model, get_alexnet_model
 from utils.py_logger import get_logger
+
+
 
 load_dotenv()
 logger = get_logger(__name__)
 
-
 def preprocess_image(img):
-    """Перевірка на ргб та створення масиву зображення."""
+    """Перевірка на RGB та створення масиву зображення."""
     if img.mode != 'RGB':
         img = img.convert('RGB')
     img = img.resize((32, 32))
@@ -26,7 +25,7 @@ def preprocess_image(img):
 
 
 def get_model(model_type):
-    """Get the model based on the selected model type."""
+    """Отримання моделі на основі вибраного типу."""
     if model_type == "vgg16":
         return get_vgg16_model()
     elif model_type == "mobnet":
@@ -39,9 +38,8 @@ def get_model(model_type):
         logger.error("Invalid model type selected")
         return get_vgg16_model()
 
-
 def validate_confidence_threshold(threshold):
-    """Validate the confidence threshold value."""
+    """Перевірка значення порогу довіри."""
     try:
         threshold = float(threshold)
         if threshold < 0 or threshold > 1:
@@ -52,9 +50,32 @@ def validate_confidence_threshold(threshold):
         threshold = float(os.getenv("CONFIDENCE_THRESHOLD", 0.70))
         return threshold
 
+def apply_filters(img, model, confidence_threshold):
+    """Застосування фільтрів та перевірка впевненості."""
+    filters = [
+        ("Контраст", ImageEnhance.Contrast(img).enhance(4)),
+        ("Різкість", ImageEnhance.Sharpness(img).enhance(4)),
+        ("Колір", ImageEnhance.Color(img).enhance(4)),
+        ("Деталізація", img.filter(ImageFilter.DETAIL)),
+        ("Додаткова різкість", img.filter(ImageFilter.SHARPEN)),
+        ("Згладжування", img.filter(ImageFilter.SMOOTH)),
+        ("Розмиття", img.filter(ImageFilter.GaussianBlur(1))),
+        ("Накладання фонового кольору", img.convert('L').point(lambda x: x // 16 * 16))
+    ]
+
+    for filter_name, filtered_img in filters:
+        img_array = preprocess_image(filtered_img)
+        prediction = model.predict(img_array)
+        predicted_class = np.argmax(prediction)
+        confidence = prediction[0][predicted_class]
+
+        if confidence >= confidence_threshold:
+            return f"Точність прогнозу була нижче заданого порогу, тому застосували фільтр '{filter_name}'. Результат : {os.getenv('MODEL_CLASSES', '').split(',')[predicted_class]} із вірогідністю {confidence * 100:.2f}%"
+
+    return f"Поточне зображення не підходить для класифікації після застосування фільтрів."
 
 def make_prediction(model, img_array, confidence_threshold):
-    """Make a prediction using the model and return the result."""
+    """Прогнозування на основі моделі та повернення результату."""
     prediction = model.predict(img_array)
     predicted_class = np.argmax(prediction)
     confidence = prediction[0][predicted_class]
@@ -64,9 +85,7 @@ def make_prediction(model, img_array, confidence_threshold):
     if confidence >= confidence_threshold:
         result_text = f"На картинці зображено {class_labels[predicted_class]} із вірогідністю у {confidence * 100:.2f}%"
     else:
-        result_text = (
-            f"Поточне зображення не підходить для класифікації. Впевненість моделі становить:"
-            f" {confidence * 100:.2f}%. Завантажте, будь ласка, інше зображення."
-        )
+        img = Image.fromarray((img_array[0] * 255).astype('uint8'))
+        result_text = apply_filters(img, model, confidence_threshold)
 
     return result_text, confidence
