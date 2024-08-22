@@ -161,6 +161,48 @@ python manage.py runserver
 ### 4. MobileNet
 [MobileNet](https://keras.io/api/applications/mobilenet/)  – це легка архітектура CNN, спеціально розроблена для мобільних та вбудованих систем. Вона використовує глибокі згортки (Depthwise Separable Convolutions), що значно зменшує кількість параметрів і обчислень, роблячи її ефективною для застосувань з обмеженими ресурсами.
 
+
+### <p align="center">:bulb: Опис фільтрів для роботи із зображеннями/p>
+
+У програмі, за умови, що реальна точність буде меншою за точність, яку пропонується обрати користувачу,  застосовуються для додаткової обробки зображень фільтри. Якщо користувач не хоче використовувати фільтри достатньо встановити цей параметр на рівні «0».
+Що ж до самих фільтрів, то вони мають наступні характеристики:
+
+
+1. **[Контраст](https://pillow.readthedocs.io/en/stable/reference/ImageEnhance.html#PIL.ImageEnhance.Contrast)**:
+   - **Опис**: підвищує контрастність зображення, роблячи темніші області темнішими, а світліші області світлішими.
+   - **Вплив**: підвищує різкість деталей та може допомогти виявити риси зображення, які інакше могли б бути непомітними.
+
+2. **[Різкість](https://pillow.readthedocs.io/en/stable/reference/ImageEnhance.html#PIL.ImageEnhance.Sharpness)**:
+   - **Опис**: збільшує чіткість зображення, акцентуючи на краях та деталях.
+   - **Вплив**: робить деталі зображення більш чіткими, що може допомогти в покращенні точності класифікації, якщо зображення було розмите або не чітке.
+
+3. **[Колір](https://pillow.readthedocs.io/en/stable/reference/ImageEnhance.html#PIL.ImageEnhance.Color)**:
+   - **Опис**: підвищує інтенсивність кольорів на зображенні.
+   - **Вплив**: робить кольори яскравішими та насиченішими, що може допомогти виявити кольорові деталі, які можуть бути важливими для класифікації.
+
+4. **Деталізація https://pillow.readthedocs.io/en/stable/reference/ImageFilter.html**:
+   - **Опис**: збільшує рівень деталей у зображенні.
+   - **Вплив**: Підвищує чіткість текстур і дрібних деталей, що може бути корисно для виявлення дрібних особливостей, які можуть бути важливими для моделі.
+
+5. **[Додаткова різкість](https://pillow.readthedocs.io/en/stable/reference/ImageEnhance.html#PIL.ImageEnhance.Sharpness)**:
+   - **Опис**: додатково покращує різкість зображення, акцентуючи на краях.
+   - **Вплив**: підкреслює контури та деталі, ніж стандартний фільтр різкості.
+
+6. **[Згладжування](https://pillow.readthedocs.io/en/stable/reference/ImageFilter.html)**:
+   - **Опис**: зменшує шум та незначні деталі, роблячи зображення м’якшим.
+   - **Вплив**: може бути корисним для зменшення шуму, але може також призвести до розмивання деталей.
+
+7. **[Розмиття](https://pillow.readthedocs.io/en/stable/reference/ImageFilter.html#PIL.ImageFilter.GaussianBlur)**:
+   - **Опис**: розмиває зображення за допомогою гаусового розмиття.
+   - **Вплив**: зменшує деталі і шум, що може бути корисно, якщо зображення є надто деталізованим або містить артефакти.
+
+8. **[Накладання фонового кольору](https://pillow.readthedocs.io/en/stable/reference/Image.html)**:
+   - **Опис**: перетворює зображення в відтінки сірого і накладає кольоровий фоновий ефект.
+   - **Вплив**: зменшує кольорову інформацію та може допомогти виявити контури та структуру зображення, що може бути корисно в умовах недостатньої контрастності або кольорових відмінностей.
+
+P.S. Ці фільтри використовуються для обробки зображень перед їх класифікацією, що може допомогти поліпшити точність прогнозів моделі у випадках, коли початкове зображення не зовсім підходить для безпосереднього аналізу.
+
+
 ## Використання
 
 Проект "Фундамент" дозволяє користувачу вибрати одну з чотирьох моделей для класифікації зображень з датасету cifar-10. Попередньо натреновані моделі збережені  у форматі `.keras`, що дозволяє їх повторне використання без необхідності перенавчання.
@@ -323,6 +365,45 @@ This project implements image classification on the CIFAR-10 dataset using four 
 
 ### 4. MobileNet
 [MobileNet](https://keras.io/api/applications/mobilenet/) is a lightweight CNN architecture specifically designed for mobile and embedded systems. It uses depthwise separable convolutions, which significantly reduces the number of parameters and computations, making it efficient for resource-constrained applications.
+
+### <p align="center">:bulb: Description of Image Filters</p>
+
+In the program, if the actual accuracy is lower than the accuracy the user is expected to choose, filters are applied for additional image processing. If the user does not want to use filters, it is enough to set this parameter to "0".
+As for the filters themselves, they have the following characteristics:
+
+1. **[Contrast](https://pillow.readthedocs.io/en/stable/reference/ImageEnhance.html#PIL.ImageEnhance.Contrast)**:
+   - **Description**: Increases the contrast of the image, making darker areas darker and lighter areas lighter.
+   - **Impact**: Enhances the sharpness of details and can help reveal features of the image that might otherwise be unnoticed.
+
+2. **[Sharpness](https://pillow.readthedocs.io/en/stable/reference/ImageEnhance.html#PIL.ImageEnhance.Sharpness)**:
+   - **Description**: Increases the clarity of the image by accentuating edges and details.
+   - **Impact**: Makes the details of the image clearer, which can improve classification accuracy if the image was blurry or unclear.
+
+3. **[Color](https://pillow.readthedocs.io/en/stable/reference/ImageEnhance.html#PIL.ImageEnhance.Color)**:
+   - **Description**: Enhances the intensity of colors in the image.
+   - **Impact**: Makes colors more vivid and saturated, which can help reveal color details that may be important for classification.
+
+4. **[Detail](https://pillow.readthedocs.io/en/stable/reference/ImageFilter.html)**:
+   - **Description**: Increases the level of detail in the image.
+   - **Impact**: Enhances the clarity of textures and fine details, which can be useful for detecting small features that might be important for the model.
+
+5. **[Additional Sharpness](https://pillow.readthedocs.io/en/stable/reference/ImageEnhance.html#PIL.ImageEnhance.Sharpness)**:
+   - **Description**: Further improves the sharpness of the image by accentuating edges.
+   - **Impact**: Emphasizes contours and details more than the standard sharpness filter.
+
+6. **[Smoothing](https://pillow.readthedocs.io/en/stable/reference/ImageFilter.html)**:
+   - **Description**: Reduces noise and minor details, making the image smoother.
+   - **Impact**: Can be useful for reducing noise but may also lead to blurring of details.
+
+7. **[Blur](https://pillow.readthedocs.io/en/stable/reference/ImageFilter.html#PIL.ImageFilter.GaussianBlur)**:
+   - **Description**: Blurs the image using Gaussian blur.
+   - **Impact**: Reduces details and noise, which can be useful if the image is overly detailed or contains artifacts.
+
+8. **[Color Background Overlay](https://pillow.readthedocs.io/en/stable/reference/Image.html)**:
+   - **Description**: Converts the image to grayscale and applies a color background effect.
+   - **Impact**: Reduces color information and can help reveal the contours and structure of the image, which can be useful in cases of low contrast or color differences.
+
+P.S. These filters are used for preprocessing images before classification, which can help improve the accuracy of the model’s predictions in cases where the initial image is not well-suited for direct analysis.
 
 ## Usage
 
