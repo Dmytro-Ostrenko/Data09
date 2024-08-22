@@ -72,7 +72,7 @@ def apply_filters(img, model, confidence_threshold):
         if confidence >= confidence_threshold:
             return f"Точність прогнозу була нижче заданого порогу, тому застосували фільтр '{filter_name}'. Результат : {os.getenv('MODEL_CLASSES', '').split(',')[predicted_class]} із вірогідністю {confidence * 100:.2f}%"
 
-    return f"Поточне зображення не підходить для класифікації після застосування фільтрів."
+    return f"Поточне зображення не підходить для класифікації. Впевненість моделі становить: {confidence * 100:.2f}%. Завантажте, будь ласка, інше зображення."
 
 def make_prediction(model, img_array, confidence_threshold):
     """Прогнозування на основі моделі та повернення результату."""
@@ -83,7 +83,7 @@ def make_prediction(model, img_array, confidence_threshold):
     class_labels = os.getenv("MODEL_CLASSES", "").split(",")
 
     if confidence >= confidence_threshold:
-        result_text = f"Поточне зображення не підходить для класифікації. Впевненість моделі становить: {confidence * 100:.2f}%. Завантажте, будь ласка, інше зображення."
+        result_text = f"Результат : Клас:{os.getenv('MODEL_CLASSES', '').split(',')[predicted_class]} із вірогідністю: {confidence * 100:.2f}%"
     else:
         img = Image.fromarray((img_array[0] * 255).astype('uint8'))
         result_text = apply_filters(img, model, confidence_threshold)
