@@ -1,13 +1,14 @@
 import asyncio
 import os
-
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from aiogram import Bot
 from aiogram import Dispatcher
 from aiogram.client.bot import DefaultBotProperties
 from aiogram.enums import ParseMode
 from dotenv import load_dotenv
 
-from handlers.user_privat import user_private_router
+from telegram_app.handlers.user_privat import user_private_router
 
 load_dotenv()
 

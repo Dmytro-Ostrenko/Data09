@@ -15,6 +15,8 @@ from utils.preprocess_image import validate_confidence_threshold
 from utils.py_logger import get_logger
 from data9.settings import BASE_DIR
 
+from data9.settings import MODELS_ROOT
+
 logger = get_logger(__name__)
 
 
@@ -74,8 +76,8 @@ def process_file(request):
         {"results": results, "show_upload_button": show_upload_button},
     )
 
-def model_LeNet(request):
-    return render(request, 'model_LeNet.html')
+def model_alexnet(request):
+    return render(request, 'model_alexnet.html')
 
 def model_LeNet_tuned(request):
     return render(request, 'model_LeNet_tuned.html')
@@ -83,15 +85,15 @@ def model_LeNet_tuned(request):
 def model_VGG16(request):
     return render(request, 'model_VGG16.html')
 
-def model_CNN(request):
-    return render(request, 'model_CNN.html')
+def model_mobnet(request):
+    return render(request, 'model_mobnet.html')
 
 def team_info(request):
     return render(request, 'team.html')
 
 
 def download_model(request, model_type):
-    model_path = os.path.join(BASE_DIR, f"{model_type}.keras")
+    model_path = os.path.join(BASE_DIR, MODELS_ROOT, f"{model_type}.keras")
 
     if os.path.exists(model_path):
         response = FileResponse(open(model_path, 'rb'), as_attachment=True, filename=f"{model_type}.keras")
