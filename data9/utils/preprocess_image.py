@@ -4,19 +4,14 @@ sys.path.append(os.getcwd())
 import numpy as np
 from dotenv import load_dotenv
 from tensorflow.keras.preprocessing.image import img_to_array
-from utils.get_models import get_lenet_model
-from utils.get_models import get_lenet_tune_model
-from utils.get_models import get_snn_model
 from utils.get_models import get_vgg16_model
+from utils.get_models import get_mobnet_model
+from utils.get_models import get_lenet_model
+from utils.get_models import get_alexnet_model
 from utils.py_logger import get_logger
 
 load_dotenv()
 logger = get_logger(__name__)
-model_lenet = get_lenet_model()
-model_lenettune_best = get_lenet_tune_model()
-model_cnn = get_snn_model()
-model_vgg16 = get_vgg16_model()
-
 
 
 def preprocess_image(img):
@@ -32,17 +27,17 @@ def preprocess_image(img):
 
 def get_model(model_type):
     """Get the model based on the selected model type."""
-    if model_type == "lenet":
-        return model_lenet
-    elif model_type == "lenettune":
-        return model_lenettune_best
-    elif model_type == "vgg16":
-        return model_vgg16
-    elif model_type == "cnn":
-        return model_cnn
+    if model_type == "vgg16":
+        return get_vgg16_model()
+    elif model_type == "mobnet":
+        return get_mobnet_model()
+    elif model_type == "lenet":
+        return get_lenet_model()
+    elif model_type == "alexnet":
+        return get_alexnet_model()
     else:
         logger.error("Invalid model type selected")
-        return model_lenet
+        return get_vgg16_model()
 
 
 def validate_confidence_threshold(threshold):
