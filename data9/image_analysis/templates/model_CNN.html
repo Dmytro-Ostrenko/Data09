@@ -1,11 +1,14 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="ie=edge" http-equiv="X-UA-Compatible">
     <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" rel="stylesheet">
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" rel="stylesheet">
     <link rel="stylesheet" href="static/image_analysis/styles.css">
     <style>
         body {
@@ -30,38 +33,44 @@
 
         .hero-text {
             text-align: center;
-            position: relative;
             padding: 20px 0;
             color: white;
-            font-weight: bold;
-            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
             margin-top: 50px;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
         }
 
         .hero-text h1 {
-            font-size: 3em;
+            font-size: 2.5em;
             font-weight: bold;
-            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
+            color: white
+            margin-bottom: 40px;
         }
 
         .hero-text p {
-            font-size: 1.5em;
-            color: black;
+            color: #333;
+            font-size: 1em;
             font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            word-wrap: break-word;
-            overflow-wrap: break-word;
+            margin-bottom: 20px;
+            text-align: justify;
         }
 
         .description-box {
-            background-color: white;
+            background-color: rgba(255, 255, 255, 0.8);
             color: black;
             border: 2px solid black;
             padding: 20px;
             border-radius: 10px;
             margin-top: 20px;
+            text-align: justify;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .description-box ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+
+        .description-box li {
+            margin-bottom: 10px;
         }
 
         .upload-container {
@@ -78,6 +87,7 @@
             cursor: pointer;
             font-weight: bold;
             display: inline-block;
+            transition: background-color 0.3s ease;
         }
 
         .btn-custom:hover {
@@ -116,27 +126,27 @@
 
         .centered-container {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 40px;
         }
-
     </style>
     <title>Головна сторінка</title>
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-custom">
         <div class="container-fluid">
             <a class="navbar-brand" href="{% url 'index' %}">Фундамент</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Про нашу команду</a>
+                        <a class="nav-link" href="{% url 'team_info' %}">Про нашу команду</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'model_LeNet' %}">Модель LeNet</a>
+                        <a class="nav-link" href="{% url 'model_LeNet' %}">Модель AlexNet</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'model_LeNet_tuned' %}">Модель LeNet-tuned</a>
@@ -145,7 +155,7 @@
                         <a class="nav-link" href="{% url 'model_VGG16' %}">Модель VGG16</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'model_CNN' %}">Модель CNN</a>
+                        <a class="nav-link" href="{% url 'model_CNN' %}">Модель MobileNet</a>
                     </li>
                 </ul>
             </div>
@@ -154,21 +164,35 @@
 
     <div class="hero-text">
         <div class="container">
-            <h1 class="text-center">Модель CNN</h1>
+            <h1 class="text-center">Модель MobileNet</h1>
 
-        <!-- Опис моделі CNN -->
+            <!-- Опис моделі MobileNet -->
             <div class="description-box">
-                <p>Опис моделі.</p>
+                <p>Архітектура моделі складається з таких компонентів:</p>
+                <ul>
+                    <li><strong>Базова модель MobileNet:</strong> Використовується з попередньо навченими вагами на ImageNet, але без останнього повнозв'язного шару (`include_top=False`). Вхідний розмір зображення встановлений на (32, 32, 3).</li>
+                    <li><strong>GlobalAveragePooling2D:</strong> Цей шар зменшує розмірність виходу з MobileNet, обчислюючи середні значення по просторових вимірах.</li>
+                    <li><strong>Dense (повнозв'язний) шар:</strong> Останній шар моделі з 10 нейронами (відповідно до кількості класів у CIFAR-10) і функцією активації softmax для класифікації.</li>
+                </ul>
+                <p>
+                    Модель компілюється з оптимізатором Adam та швидкістю навчання 0.001, функцією втрат `categorical_crossentropy` і метрикою `accuracy`.
+                    Для покращення навчання використовується аугментація даних за допомогою `ImageDataGenerator`, який вносить різноманітні трансформації в тренувальні зображення.
+                </p>
+                <p>
+                    Навчання моделі відбувається протягом 50 епох, і найкраща модель зберігається на Google Drive за допомогою `ModelCheckpoint`, який відстежує валідаційну точність.
+                    Після навчання візуалізуються точність та втрати на тренувальних і валідаційних даних, а також оцінюється точність збереженої моделі на тестових даних.
+                </p>
             </div>
 
-            <h1 class="text-center mt-5">Pезультати роботи моделі CNN</h1>
-            <div class="description-box">
-                <p>Тут можна графіки</p>
+            <h1 class="text-center mt-5">Результати роботи моделі</h1>
+            <div class="description-box text-center">
+                <img src="{% static 'mobnet.png' %}" alt="Результати роботи моделі MobileNet">
             </div>
         </div>
 
-            <div class="centered-container">
-                <a href="{% url 'download_model' model_type='cnn_model1_r1' %}" class="btn btn-custom">Скачати модель CNN</a>
-            </div>
+        <div class="centered-container">
+            <a href="{% url 'download_model' model_type='cnn_model1_r1' %}" class="btn btn-custom">Скачати модель MobileNet</a>
+        </div>
     </div>
 </body>
+</html>

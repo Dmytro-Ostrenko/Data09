@@ -86,6 +86,9 @@ def model_VGG16(request):
 def model_CNN(request):
     return render(request, 'model_CNN.html')
 
+def team_info(request):
+    return render(request, 'team.html')
+
 
 def download_model(request, model_type):
     model_path = os.path.join(BASE_DIR, f"{model_type}.keras")
