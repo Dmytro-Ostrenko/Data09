@@ -1,0 +1,230 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'image_analysis/styles.css' %}">
+    <style>
+        body {
+            background: linear-gradient(to bottom right, #d0d0d0, #ffffff);
+            background-image: url('https://www.europarl.europa.eu/resources/library/images/20230607PHT95601/20230607PHT95601_original.jpg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 110%;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            height: 100vh;
+        }
+
+        .navbar-custom {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .navbar-custom .nav-link, .navbar-custom .navbar-brand {
+            color: white;
+        }
+
+        .hero-text {
+            text-align: center;
+            padding: 20px 0;
+            color: white;
+            margin-top: 50px;
+        }
+
+        .hero-text h1 {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: white
+            margin-bottom: 40px;
+        }
+
+        .hero-text p {
+            color: #333;
+            font-size: 1em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .description-box {
+            background-color: rgba(255, 255, 255, 0.8);
+            color: black;
+            border: 2px solid black;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: justify;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .description-box ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+
+        .description-box li {
+            margin-bottom: 10px;
+        }
+
+        .upload-container {
+            margin-top: 20px;
+        }
+
+        .btn-custom {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            color: white;
+            background-color: #0d6efd;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            background-color: #0b5ed7;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .file-input {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .progress-container {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 20px;
+            background-color: #007bff;
+            color: #ffffff;
+            text-align: center;
+            line-height: 20px;
+            transition: width 0.4s ease;
+        }
+
+        .centered-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+    </style>
+    <title>Модель VGG16</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'index' %}">Фундамент</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'team_info' %}">Про нашу команду</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'model_alexnet' %}">Модель AlexNet</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'model_LeNet' %}">Модель LeNet</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'model_VGG16' %}">Модель VGG16</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'model_mobnet' %}">Модель MobileNet</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://t.me/MobNet_fundament_bot">Telegram</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero-text">
+        <div class="container">
+            <h1 class="text-center">Модель VGG16</h1>
+
+            <!-- Опис моделі VGG16 -->
+            <div class="description-box">
+                <p>Архітектура моделі, яка будується в цьому коді, базується на VGG16 з деякими модифікаціями для адаптації до задачі класифікації на датасеті CIFAR-10. Ось детальний опис архітектури:</p>
+                <ul>
+                    <li>Базова модель VGG16: Використовується з попередньо навченими вагами на ImageNet, але без останнього повнозв'язного шару (`include_top=False`). Вхідний розмір зображення встановлений на (32, 32, 3).</li>
+                    <li>GlobalAveragePooling2D: Цей шар зменшує розмірність виходу з VGG16, обчислюючи середні значення по просторових вимірах.</li>
+                    <li>Повнозв'язний шар (Dense layer): Кількість нейронів у цьому шарі визначається гіперпараметром `units`, який може приймати значення від 256 до 1024 з кроком 128. Функція активації — ReLU.</li>
+                    <li>Dropout layer: Використовується для регуляризації моделі, зменшуючи перенавчання. Швидкість dropout визначається гіперпараметром `dropout_rate`, який може приймати значення від 0.2 до 0.5 з кроком 0.1.</li>
+                    <li>Останній повнозв'язний шар (Dense layer): Має 10 нейронів (відповідно до кількості класів у CIFAR-10) і функцію активації softmax для класифікації.</li>
+                    <li>Модель компілюється з оптимізатором Adam, функцією втрат `sparse_categorical_crossentropy` (оскільки мітки є цілими числами, а не категоріальними векторами) і метрикою `accuracy`.</li>
+                </ul>
+            </div>
+
+            <h1 class="text-center mt-5">Тюнінг гіперпараметрів</h1>
+            <div class="description-box">
+                <p>У коді використовується Keras Tuner для оптимізації гіперпараметрів моделі. Ось детальний опис того, як відбувається тюнінг гіперпараметрів:</p>
+                <ul>
+                    <li>Функція побудови моделі з гіперпараметрами:</li>
+                       <ul>
+                           <li>`build_model(hp)`: Ця функція приймає об'єкт `hp` від Keras Tuner і визначає гіперпараметри, які будуть оптимізовані.</li>
+                           <li>`units`: Кількість нейронів у повнозв'язному шарі. Може приймати значення від 256 до 1024 з кроком 128.</li>
+                           <li>`dropout_rate`: Швидкість dropout для регуляризації. Може приймати значення від 0.2 до 0.5 з кроком 0.1.</li>
+                           <li>`learning_rate`: Швидкість навчання для оптимізатора Adam. Може приймати значення 1e-2, 1e-3 або 1e-4.</li>
+                       </ul>
+                    <li>Ініціалізація тюнeра:</li>
+                       <ul>
+                           <li>`tuner = RandomSearch(...)`: Використовується `RandomSearch` для пошуку найкращих гіперпараметрів. Встановлено максимальну кількість проб (`max_trials`) рівною 5.</li>
+                       </ul>
+                    <li>Пошук найкращих гіперпараметрів:</li>
+                       <ul>
+                           <li>`tuner.search(...)`: Тюнeр виконує пошук, тренуючи модель з різними комбінаціями гіперпараметрів. На кожній пробі модель тренується протягом 50 епох.</li>
+                       </ul>
+                    <li>Отримання найкращої моделі:</li>
+                       <ul>
+                           <li>`best_model = tuner.get_best_models(num_models=1)[0]`: Після завершення пошуку тюнeр вибирає найкращу модель на основі метрики `val_accuracy`.</li>
+                       </ul>
+                    <li>Навчання моделі з колбеками:</li>
+                       <ul>
+                           <li>`checkpoint` і `early_stopping`: Використовуються для збереження найкращої моделі та запобігання перенавчанню відповідно.</li>
+                       </ul>
+                    <li>Збереження історії тренування:</li>
+                       <ul>
+                           <li>Історія тренування зберігається у форматі JSON для подальшої візуалізації.</li>
+                       </ul>
+                </ul>
+                <p>Тюнінг гіперпараметрів у коді дозволив автоматично знаходити оптимальні значення для кількості нейронів у повнозв'язному шарі, швидкості dropout та швидкості навчання, що значно покращило продуктивність моделі на задачі класифікації CIFAR-10.</p>
+            </div>
+
+            <h1 class="text-center mt-5">Результати роботи моделі</h1>
+            <div class="description-box text-center">
+                <img src="{% static 'vgg16.png' %}" class="img-fluid mb-3" alt="Результати роботи моделі VGG16">
+                <img src="{% static 'vgg16_2.png' %}" class="img-fluid" alt="Результати роботи моделі VGG16">
+            </div>
+        </div>
+
+        <div class="centered-container">
+            <a href="{% url 'download_model' model_type='vgg16' %}" class="btn btn-custom">Скачати модель VGG16</a>
+        </div>
+    </div>
+</body>
+</html>

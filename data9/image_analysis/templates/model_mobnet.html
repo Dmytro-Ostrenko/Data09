@@ -1,0 +1,201 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" rel="stylesheet">
+    <link rel="stylesheet" href="static/image_analysis/styles.css">
+    <style>
+        body {
+            background: linear-gradient(to bottom right, #d0d0d0, #ffffff);
+            background-image: url('https://www.europarl.europa.eu/resources/library/images/20230607PHT95601/20230607PHT95601_original.jpg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 110%;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            height: 100vh;
+        }
+
+        .navbar-custom {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .navbar-custom .nav-link, .navbar-custom .navbar-brand {
+            color: white;
+        }
+
+        .hero-text {
+            text-align: center;
+            padding: 20px 0;
+            color: white;
+            margin-top: 50px;
+        }
+
+        .hero-text h1 {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: white
+            margin-bottom: 40px;
+        }
+
+        .hero-text p {
+            color: #333;
+            font-size: 1em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .description-box {
+            background-color: rgba(255, 255, 255, 0.8);
+            color: black;
+            border: 2px solid black;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: justify;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .description-box ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+
+        .description-box li {
+            margin-bottom: 10px;
+        }
+
+        .upload-container {
+            margin-top: 20px;
+        }
+
+        .btn-custom {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            color: white;
+            background-color: #0d6efd;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            background-color: #0b5ed7;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .file-input {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .progress-container {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 20px;
+            background-color: #007bff;
+            color: #ffffff;
+            text-align: center;
+            line-height: 20px;
+            transition: width 0.4s ease;
+        }
+
+        .centered-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+    </style>
+    <title>Головна сторінка</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'index' %}">Фундамент</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'team_info' %}">Про нашу команду</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'model_alexnet' %}">Модель AlexNet</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'model_LeNet' %}">Модель LeNet</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'model_VGG16' %}">Модель VGG16</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'model_mobnet' %}">Модель MobileNet</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://t.me/MobNet_fundament_bot">Telegram</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero-text">
+        <div class="container">
+            <h1 class="text-center">Модель MobileNet</h1>
+
+            <!-- Опис моделі MobileNet -->
+            <div class="description-box">
+                <p>Архітектура моделі складається з таких компонентів:</p>
+                <ul>
+                    <li><strong>Базова модель MobileNet:</strong> Використовується з попередньо навченими вагами на ImageNet, але без останнього повнозв'язного шару (`include_top=False`). Вхідний розмір зображення встановлений на (32, 32, 3).</li>
+                    <li><strong>GlobalAveragePooling2D:</strong> Цей шар зменшує розмірність виходу з MobileNet, обчислюючи середні значення по просторових вимірах.</li>
+                    <li><strong>Dense (повнозв'язний) шар:</strong> Останній шар моделі з 10 нейронами (відповідно до кількості класів у CIFAR-10) і функцією активації softmax для класифікації.</li>
+                </ul>
+                <p>
+                    Модель компілюється з оптимізатором Adam та швидкістю навчання 0.001, функцією втрат `categorical_crossentropy` і метрикою `accuracy`.
+                    Для покращення навчання використовується аугментація даних за допомогою `ImageDataGenerator`, який вносить різноманітні трансформації в тренувальні зображення.
+                </p>
+                <p>
+                    Навчання моделі відбувається протягом 50 епох, і найкраща модель зберігається на Google Drive за допомогою `ModelCheckpoint`, який відстежує валідаційну точність.
+                    Після навчання візуалізуються точність та втрати на тренувальних і валідаційних даних, а також оцінюється точність збереженої моделі на тестових даних.
+                </p>
+            </div>
+
+            <h1 class="text-center mt-5">Результати роботи моделі</h1>
+            <div class="description-box text-center">
+                <img src="{% static 'mobnet.png' %}" alt="Результати роботи моделі MobileNet">
+            </div>
+        </div>
+
+        <div class="centered-container">
+            <a href="{% url 'download_model' model_type='mobnet' %}" class="btn btn-custom">Скачати модель MobileNet</a>
+        </div>
+    </div>
+</body>
+</html>
