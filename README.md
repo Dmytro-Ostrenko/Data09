@@ -123,6 +123,16 @@ python manage.py runserver
     docker login
     docker push User/fundament-app
     ```
+Наразі у Docker Hub вже є Docker-образ, який можливо підняти наступними командами:
+
+    ```
+    docker pull goituau/data9-web:latest
+    docker run -d -p 8000:8000 goituau/data9-web:latest
+    ```
+    
+
+
+
 
 4. **Розгортання програми за допомогою Docker Compose** :white_check_mark::
 
@@ -292,6 +302,13 @@ python -m venv venv
 source venv/bin/activate  # for Linux/MacOS
 .\venv\Scripts\activate   # for Windows
 ```
+Currently, Docker Hub already has a Docker image that can be brought up with the following commands:
+
+ ```
+ docker pull goituau/data9-web:latest
+ docker run -d -p 8000:8000 goituau/data9-web:latest
+ ```
+
 
 5. **Update dependencies (optional)** :white_check_mark::
 
