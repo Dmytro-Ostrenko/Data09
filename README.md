@@ -374,7 +374,6 @@ The "Fundament" application is a web service for image classification, based on 
 - **[Python](https://www.python.org/)** - The main programming language used for developing the image classification logic and working with neural networks.
 - **[Django](https://www.djangoproject.com/)** - A web framework for building and managing the backend of the web application.
 - **[TensorFlow](https://www.tensorflow.org/)** - A machine learning library for creating, training, and deploying neural network models.
-- **[PostgreSQL](https://www.postgresql.org/)** - A relational database used for storing and managing user data and models.
 - **[Docker Desktop](https://www.docker.com/products/docker-desktop/)** - A platform for containerization that ensures an isolated environment for deploying the application.
 - **[Docker Hub](https://hub.docker.com/)** - A container registry for storing and distributing Docker images.
 - **[GitHub](https://github.com/)** - A platform for version control and collaboration on the project.
