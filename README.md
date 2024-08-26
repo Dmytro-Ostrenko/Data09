@@ -27,7 +27,6 @@
 - **[Python](https://www.python.org/)** - основна мова програмування для розробки логіки класифікації зображень та роботи з нейронними мережами.
 - **[Django](https://www.djangoproject.com/)** - веб-фреймворк для створення та управління бекендом веб-додатку.
 - **[TensorFlow](https://www.tensorflow.org/)** - бібліотека машинного навчання для створення, тренування та використання моделей нейронних мереж.
-- **[PostgreSQL](https://www.postgresql.org/)** - реляційна база даних для збереження та управління даними користувачів та моделями.
 - **[Docker Desktop](https://www.docker.com/products/docker-desktop/)** - платформа для контейнеризації, що забезпечує ізольоване середовище для розгортання додатку.
 - **[Docker Hub](https://hub.docker.com/)** - регістр контейнерів для зберігання та розповсюдження Docker-образів.
 - **[GitHub](https://github.com/)** - платформа для керування версіями коду та співпраці над проектом.
@@ -162,14 +161,145 @@ python manage.py runserver
 ### 1. VGG16
 [VGG16](https://keras.io/api/applications/vgg/) – це одна з найпопулярніших архітектур згорткових нейронних мереж (CNN), яка складається з 16 шарів. Основна ідея VGG16 полягає у використанні невеликих фільтрів розміром 3x3 у всіх згорткових шарах, що дозволяє зберігати просторову інформацію та досягати високої точності. Модель закінчується кількома повнозв’язними шарами та шаром Softmax для класифікації.
 
+
+
+Архітектура моделі, яка будується в цьому коді, базується на VGG16 з деякими модифікаціями для адаптації до задачі класифікації на датасеті CIFAR-10. Ось детальний опис архітектури:
+
+- **Базова модель VGG16**: Використовується з попередньо навченими вагами на ImageNet, але без останнього повнозв'язного шару (`include_top=False`). Вхідний розмір зображення встановлений на (32, 32, 3).
+- **GlobalAveragePooling2D**: Цей шар зменшує розмірність виходу з VGG16, обчислюючи середні значення по просторових вимірах.
+- **Повнозв'язний шар (Dense layer)**: Кількість нейронів у цьому шарі визначається гіперпараметром `units`, який може приймати значення від 256 до 1024 з кроком 128. Функція активації — ReLU.
+- **Dropout layer**: Використовується для регуляризації моделі, зменшуючи перенавчання. Швидкість dropout визначається гіперпараметром `dropout_rate`, який може приймати значення від 0.2 до 0.5 з кроком 0.1.
+- **Останній повнозв'язний шар (Dense layer)**: Має 10 нейронів (відповідно до кількості класів у CIFAR-10) і функцію активації softmax для класифікації.
+
+Модель компілюється з оптимізатором Adam, функцією втрат `sparse_categorical_crossentropy` (оскільки мітки є цілими числами, а не категоріальними векторами) і метрикою `accuracy`.
+
+#### Тюнінг гіперпараметрів
+
+У коді використовується Keras Tuner для оптимізації гіперпараметрів моделі. Ось детальний опис того, як відбувається тюнінг гіперпараметрів:
+
+#### Функція побудови моделі з гіперпараметрами
+
+- **`build_model(hp)`**: Ця функція приймає об'єкт `hp` від Keras Tuner і визначає гіперпараметри, які будуть оптимізовані.
+  - **`units`**: Кількість нейронів у повнозв'язному шарі. Може приймати значення від 256 до 1024 з кроком 128.
+  - **`dropout_rate`**: Швидкість dropout для регуляризації. Може приймати значення від 0.2 до 0.5 з кроком 0.1.
+  - **`learning_rate`**: Швидкість навчання для оптимізатора Adam. Може приймати значення 1e-2, 1e-3 або 1e-4.
+
+#### Ініціалізація тюнера
+
+- **`tuner = RandomSearch(...)`**: Використовується `RandomSearch` для пошуку найкращих гіперпараметрів. Встановлено максимальну кількість проб (`max_trials`) рівною 5.
+
+#### Пошук найкращих гіперпараметрів
+
+- **`tuner.search(...)`**: Тюнер виконує пошук, тренуючи модель з різними комбінаціями гіперпараметрів. На кожній пробі модель тренується протягом 50 епох.
+
+#### Отримання найкращої моделі
+
+- **`best_model = tuner.get_best_models(num_models=1)[0]`**: Після завершення пошуку тюнер вибирає найкращу модель на основі метрики `val_accuracy`.
+
+#### Навчання моделі з колбеками
+
+- **`checkpoint` і `early_stopping`**: Використовуються для збереження найкращої моделі та запобігання перенавчанню відповідно.
+
+#### Збереження історії тренування
+
+Історія тренування зберігається у форматі JSON для подальшої візуалізації.
+
+Тюнінг гіперпараметрів у коді дозволив автоматично знаходити оптимальні значення для кількості нейронів у повнозв'язному шарі, швидкості dropout та швидкості навчання, що значно покращило продуктивність моделі на задачі класифікації CIFAR-10.
+
+#### Результати
+
+![Модель VGG16](https://github.com/Dmytro-Ostrenko/Data09/blob/main/data9/image_analysis/static/vgg16.png)
+
+
 ### 2. AlexNet
 [AlexNet](https://www.kaggle.com/code/blurredmachine/alexnet-architecture-a-complete-guide)  – це архітектура CNN, яка вперше продемонструвала силу глибокого навчання на конкурсі ImageNet у 2012 році. Модель складається з 8 навчальних шарів, включаючи 5 згорткових і 3 повнозв’язних. Особливості AlexNet включають використання великих фільтрів на початкових шарах та Dropout для запобігання перенавчанню.
+
+Ось детальний опис архітектури моделі:
+
+- **Conv2D** (96 фільтрів, розмір 3x3, крок 1, ReLU активація, padding='same')
+- **BatchNormalization**
+- **MaxPooling2D** (розмір 2x2, крок 2)
+- **Conv2D** (256 фільтрів, розмір 3x3, ReLU активація, padding='same')
+- **BatchNormalization**
+- **MaxPooling2D** (розмір 2x2, крок 2)
+- **Conv2D** (384 фільтрів, розмір 3x3, ReLU активація, padding='same')
+- **BatchNormalization**
+- **Conv2D** (384 фільтрів, розмір 3x3, ReLU активація, padding='same')
+- **BatchNormalization**
+- **Conv2D** (256 фільтрів, розмір 3x3, ReLU активація, padding='same')
+- **BatchNormalization**
+- **MaxPooling2D** (розмір 2x2, крок 2)
+- **Flatten**
+- **Dense** (4096 нейронів, ReLU активація)
+- **Dropout** (0.5)
+- **Dense** (4096 нейронів, ReLU активація)
+- **Dropout** (0.5)
+- **Dense** (10 нейронів, softmax активація)
+
+Модель компілюється з оптимізатором Adam та швидкістю навчання 0.001, функцією втрат `categorical_crossentropy` і метрикою `accuracy`. Для покращення навчання використовується аугментація даних за допомогою `ImageDataGenerator`, який вносить різноманітні трансформації в тренувальні зображення. Навчання моделі відбувається протягом 100 епох, і найкраща модель зберігається за допомогою `ModelCheckpoint`, який відстежує валідаційну точність. Після навчання візуалізуються точність та втрати на тренувальних і валідаційних даних, а також оцінюється точність збереженої моделі на тестових даних.
+
+#### Результати
+
+![Модель AlexNet](https://github.com/Dmytro-Ostrenko/Data09/blob/main/data9/image_analysis/static/Alex.png)
+
+
 
 ### 3. LeNet
 [LeNet](https://pyimagesearch.com/2016/08/01/lenet-convolutional-neural-network-in-python/) – одна з перших CNN архітектур, розроблена [Яном ЛеКуном](https://yann.lecun.com/) для розпізнавання рукописних цифр. Вона складається з чергування згорткових і підвибіркових (Pooling) шарів, завершуючись кількома повнозв’язними шарами. LeNet є простою в реалізації, але менш потужною порівняно з іншими сучасними архітектурами.
 
+Архітектура моделі, яка будується в цьому коді, є адаптацією класичної архітектури LeNet до задачі класифікації на датасеті CIFAR-10. LeNet — це одна з перших успішних архітектур згорткових нейронних мереж, розроблена Яном Лекуном у 1990-х роках для розпізнавання рукописних цифр. Ось детальний опис архітектури моделі:
+
+- **Conv2D** (змінна кількість фільтрів, розмір 5x5, ReLU активація): Перший шар згортки з гіперпараметром `conv_1_filter`, який визначає кількість фільтрів (від 32 до 128 з кроком 16).
+- **MaxPooling2D** (розмір 2x2): Максимальний пулінг зменшує розмірність виходу згорткового шару.
+- **Conv2D** (змінна кількість фільтрів, розмір 5x5, ReLU активація): Другий шар згортки з гіперпараметром `conv_2_filter`, який визначає кількість фільтрів (від 64 до 256 з кроком 32).
+- **MaxPooling2D** (розмір 2x2): Максимальний пулінг.
+- **Flatten**: Згортання виходу згорткових шарів у одномірний вектор.
+- **Dense** (змінна кількість нейронів, ReLU активація): Перший повнозв'язний шар з гіперпараметром `dense_1_units`, який визначає кількість нейронів (від 64 до 512 з кроком 64).
+- **Dense** (10 нейронів, softmax активація): Останній повнозв'язний шар з 10 нейронами для класифікації (CIFAR-10 має 10 класів).
+
+Модель компілюється з оптимізатором Adam та швидкістю навчання, яка визначається гіперпараметром `learning_rate` (значення 1e-2, 1e-3 або 1e-4), функцією втрат `categorical_crossentropy` і метрикою `accuracy`.
+
+#### Тюнінг гіперпараметрів
+
+У коді використовується Keras Tuner для оптимізації гіперпараметрів моделі. Ось детальний опис того, як відбувається тюнінг гіперпараметрів:
+
+- **Функція побудови моделі з гіперпараметрами:**
+  - `build_model(hp)`: Ця функція приймає об'єкт `hp` від Keras Tuner і визначає гіперпараметри, які будуть оптимізовані.
+  - `conv_1_filter`: Кількість фільтрів у першому згортковому шарі.
+  - `conv_2_filter`: Кількість фільтрів у другому згортковому шарі.
+  - `dense_1_units`: Кількість нейронів у першому повнозв'язному шарі.
+  - `learning_rate`: Швидкість навчання для оптимізатора Adam.
+- **Ініціалізація тюнeра:**
+  - `tuner = RandomSearch(...)`: Використовується `RandomSearch` для пошуку найкращих гіперпараметрів. Встановлено максимальну кількість проб (`max_trials`) рівною 5.
+- **Аугментація даних:**
+  - Використовується `ImageDataGenerator` для аугментації тренувальних даних.
+- **Пошук найкращих гіперпараметрів:**
+  - `tuner.search(...)`: Тюнeр виконує пошук, тренуючи модель з різними комбінаціями гіперпараметрів. На кожній пробі модель тренується протягом 50 епох.
+- **Отримання найкращої моделі:**
+  - `best_model = tuner.get_best_models(num_models=1)[0]`: Після завершення пошуку тюнeр вибирає найкращу модель на основі метрики `val_accuracy`.
+- **Збереження найкращої моделі:**
+  - Найкраща модель зберігається на Google Drive.
+- **Оцінка найкращої моделі на тестових даних:**
+  - Точність та втрати найкращої моделі оцінюються на тестових даних.
+
+Отже, тюнінг гіперпараметрів у коді дозволив автоматично знаходити оптимальні значення для кількості фільтрів у згорткових шарах, кількості нейронів у повнозв'язному шарі та швидкості навчання, що значно покращило продуктивність моделі на задачі класифікації CIFAR-10.
+
+
 ### 4. MobileNet
 [MobileNet](https://keras.io/api/applications/mobilenet/)  – це легка архітектура CNN, спеціально розроблена для мобільних та вбудованих систем. Вона використовує глибокі згортки (Depthwise Separable Convolutions), що значно зменшує кількість параметрів і обчислень, роблячи її ефективною для застосувань з обмеженими ресурсами.
+
+Архітектура моделі складається з таких компонентів:
+
+- **Базова модель MobileNet**: Використовується з попередньо навченими вагами на ImageNet, але без останнього повнозв'язного шару (`include_top=False`). Вхідний розмір зображення встановлений на (32, 32, 3).
+- **GlobalAveragePooling2D**: Цей шар зменшує розмірність виходу з MobileNet, обчислюючи середні значення по просторових вимірах.
+- **Dense (повнозв'язний) шар**: Останній шар моделі з 10 нейронами (відповідно до кількості класів у CIFAR-10) і функцією активації softmax для класифікації.
+
+Модель компілюється з оптимізатором Adam та швидкістю навчання 0.001, функцією втрат `categorical_crossentropy` і метрикою `accuracy`. Для покращення навчання використовується аугментація даних за допомогою `ImageDataGenerator`, який вносить різноманітні трансформації в тренувальні зображення.
+
+Навчання моделі відбувається протягом 50 епох, і найкраща модель зберігається на Google Drive за допомогою `ModelCheckpoint`, який відстежує валідаційну точність. Після навчання візуалізуються точність та втрати на тренувальних і валідаційних даних, а також оцінюється точність збереженої моделі на тестових даних.
+
+#### Результати роботи моделі
+![Результати](https://github.com/Dmytro-Ostrenko/Data09/blob/main/data9/image_analysis/static/mobnet.png)
 
 
 ### <p align="center">:bulb: Опис фільтрів для роботи із зображеннями </p>
@@ -372,16 +502,162 @@ This project implements image classification on the CIFAR-10 dataset using four 
 ### Model Descriptions
 
 ### 1. VGG16
-[VGG16](https://keras.io/api/applications/vgg/) is one of the most popular convolutional neural network (CNN) architectures, consisting of 16 layers. The main idea of VGG16 is to use small filters of size 3x3 in all convolutional layers, which preserves spatial information and achieves high accuracy. The model ends with several fully connected layers and a Softmax layer for classification.
+[VGG16](https://keras.io/api/applications/vgg/) is one of the most popular convolutional neural network (CNN) architectures, consisting of 16 layers. The key idea of VGG16 is to use small 3x3 filters in all convolutional layers, which helps to preserve spatial information and achieve high accuracy. The model ends with several fully connected layers and a Softmax layer for classification.
+
+The architecture of the model built in this code is based on VGG16 with some modifications for adapting it to the CIFAR-10 classification task. Here is a detailed description of the architecture:
+
+- **Base VGG16 Model**: Used with pre-trained weights on ImageNet, but without the last fully connected layer (`include_top=False`). The input image size is set to (32, 32, 3).
+- **GlobalAveragePooling2D**: This layer reduces the dimensionality of the VGG16 output by computing the average values across spatial dimensions.
+- **Fully Connected Layer (Dense layer)**: The number of neurons in this layer is defined by the `units` hyperparameter, which can range from 256 to 1024 in steps of 128. The activation function is ReLU.
+- **Dropout Layer**: Used for regularizing the model, reducing overfitting. The dropout rate is defined by the `dropout_rate` hyperparameter, which can range from 0.2 to 0.5 in steps of 0.1.
+- **Final Fully Connected Layer (Dense layer)**: Contains 10 neurons (corresponding to the number of classes in CIFAR-10) and uses the softmax activation function for classification.
+
+The model is compiled with the Adam optimizer, the loss function `sparse_categorical_crossentropy` (as labels are integers rather than categorical vectors), and the `accuracy` metric.
+
+#### Hyperparameter Tuning
+
+The code uses Keras Tuner for optimizing the model's hyperparameters. Here is a detailed description of how hyperparameter tuning is performed:
+
+#### Model Building Function with Hyperparameters
+
+- **`build_model(hp)`**: This function takes an `hp` object from Keras Tuner and defines the hyperparameters to be optimized.
+  - **`units`**: The number of neurons in the fully connected layer. Can range from 256 to 1024 in steps of 128.
+  - **`dropout_rate`**: The dropout rate for regularization. Can range from 0.2 to 0.5 in steps of 0.1.
+  - **`learning_rate`**: The learning rate for the Adam optimizer. Can be 1e-2, 1e-3, or 1e-4.
+
+#### Tuner Initialization
+
+- **`tuner = RandomSearch(...)`**: `RandomSearch` is used for finding the best hyperparameters. The maximum number of trials (`max_trials`) is set to 5.
+
+#### Best Hyperparameters Search
+
+- **`tuner.search(...)`**: The tuner performs the search by training the model with different combinations of hyperparameters. Each trial trains the model for 50 epochs.
+
+#### Getting the Best Model
+
+- **`best_model = tuner.get_best_models(num_models=1)[0]`**: After the search is completed, the tuner selects the best model based on the `val_accuracy` metric.
+
+#### Model Training with Callbacks
+
+- **`checkpoint` and `early_stopping`**: Used to save the best model and prevent overfitting, respectively.
+
+#### Training History Saving
+
+Training history is saved in JSON format for further visualization.
+
+Hyperparameter tuning in the code allowed automatic finding of optimal values for the number of neurons in the fully connected layer, dropout rate, and learning rate, which significantly improved the model's performance on the CIFAR-10 classification task.
+
+#### Results
+
+![Модель VGG16](https://github.com/Dmytro-Ostrenko/Data09/blob/main/data9/image_analysis/static/vgg16.png)
+
 
 ### 2. AlexNet
-[AlexNet](https://www.kaggle.com/code/blurredmachine/alexnet-architecture-a-complete-guide) is a CNN architecture that first demonstrated the power of deep learning at the ImageNet competition in 2012. The model consists of 8 learnable layers, including 5 convolutional and 3 fully connected layers. AlexNet's features include the use of large filters in the initial layers and Dropout to prevent overfitting.
+[AlexNet](https://www.kaggle.com/code/blurredmachine/alexnet-architecture-a-complete-guide) is a CNN architecture that first demonstrated the power of deep learning in the ImageNet competition in 2012. The model consists of 8 trainable layers, including 5 convolutional and 3 fully connected layers. Features of AlexNet include the use of large filters in the initial layers and Dropout to prevent overfitting.
+
+Here is a detailed description of the model architecture:
+
+- **Conv2D** (96 filters, size 3x3, stride 1, ReLU activation, padding='same')
+- **BatchNormalization**
+- **MaxPooling2D** (size 2x2, stride 2)
+- **Conv2D** (256 filters, size 3x3, ReLU activation, padding='same')
+- **BatchNormalization**
+- **MaxPooling2D** (size 2x2, stride 2)
+- **Conv2D** (384 filters, size 3x3, ReLU activation, padding='same')
+- **BatchNormalization**
+- **Conv2D** (384 filters, size 3x3, ReLU activation, padding='same')
+- **BatchNormalization**
+- **Conv2D** (256 filters, size 3x3, ReLU activation, padding='same')
+- **BatchNormalization**
+- **MaxPooling2D** (size 2x2, stride 2)
+- **Flatten**
+- **Dense** (4096 neurons, ReLU activation)
+- **Dropout** (0.5)
+- **Dense** (4096 neurons, ReLU activation)
+- **Dropout** (0.5)
+- **Dense** (10 neurons, softmax activation)
+
+The model is compiled with the Adam optimizer and a learning rate of 0.001, the loss function `categorical_crossentropy`, and the `accuracy` metric. Data augmentation is used with `ImageDataGenerator`, which introduces various transformations to the training images. The model is trained for 100 epochs, and the best model is saved using `ModelCheckpoint`, which tracks validation accuracy. After training, accuracy and loss on training and validation data are visualized, and the accuracy of the saved model on test data is evaluated.
+
+#### Results
+
+
+![Модель AlexNet](https://github.com/Dmytro-Ostrenko/Data09/blob/main/data9/image_analysis/static/Alex.png)
+
 
 ### 3. LeNet
-[LeNet](https://pyimagesearch.com/2016/08/01/lenet-convolutional-neural-network-in-python/) is one of the first CNN architectures, developed by [Yann LeCun](https://yann.lecun.com/) for recognizing handwritten digits. It consists of alternating convolutional and pooling layers, ending with several fully connected layers. LeNet is simple to implement but less powerful compared to other modern architectures.
+[LeNet](https://pyimagesearch.com/2016/08/01/lenet-convolutional-neural-network-in-python/) is one of the earliest CNN architectures developed by [Yann LeCun](https://yann.lecun.com/) for handwritten digit recognition. It consists of alternating convolutional and pooling layers, ending with several fully connected layers. LeNet is simple to implement but less powerful compared to other modern architectures.
 
-### 4. MobileNet
-[MobileNet](https://keras.io/api/applications/mobilenet/) is a lightweight CNN architecture specifically designed for mobile and embedded systems. It uses depthwise separable convolutions, which significantly reduces the number of parameters and computations, making it efficient for resource-constrained applications.
+The model architecture built in this code is an adaptation of the classic LeNet architecture for the CIFAR-10 classification task. LeNet is one of the first successful convolutional neural network architectures, developed by Yann LeCun in the 1990s for handwritten digit recognition. Here is a detailed description of the model architecture:
+
+- **Conv2D** (variable number of filters, size 5x5, ReLU activation): The first convolutional layer with the hyperparameter `conv_1_filter`, which defines the number of filters (from 32 to 128 in steps of 16).
+- **MaxPooling2D** (size 2x2): Max pooling reduces the dimensionality of the convolutional layer output.
+- **Conv2D** (variable number of filters, size 5x5, ReLU activation): The second convolutional layer with the hyperparameter `conv_2_filter`, which defines the number of filters (from 64 to 256 in steps of 32).
+- **MaxPooling2D** (size 2x2): Max pooling.
+- **Flatten**: Flattening the convolutional layer output into a one-dimensional vector.
+- **Dense** (variable number of neurons, ReLU activation): The first fully connected layer with the hyperparameter `dense_1_units`, which defines the number of neurons (from 64 to 512 in steps of 64).
+- **Dense** (10 neurons, softmax activation): The last fully connected layer with 10 neurons for classification (CIFAR-10 has 10 classes).
+
+The model is compiled with the Adam optimizer and a learning rate determined by the `learning_rate` hyperparameter (values of 1e-2, 1e-3, or 1e-4), the loss function `categorical_crossentropy`, and the `accuracy` metric.
+
+#### Hyperparameter Tuning
+
+The code uses Keras Tuner for optimizing the model's hyperparameters. Here is a detailed description of how hyperparameter tuning is performed:
+
+- **Model Building Function with Hyperparameters:**
+  - `build_model(hp)`: This function takes an `hp` object from Keras Tuner and defines the hyperparameters to be optimized.
+  - `conv_1_filter`: The number of filters in the first convolutional layer.
+  - `conv_2_filter`: The number of filters in the second convolutional layer.
+  - `dense_1_units`: The number of neurons in the first fully connected layer.
+  - `learning_rate`: The learning rate for the Adam optimizer.
+- **Tuner Initialization:**
+  - `tuner = RandomSearch(...)`: `RandomSearch` is used for finding the best hyperparameters. The maximum number of trials (`max_trials`) is set to 5.
+- **Data Augmentation:**
+  - `ImageDataGenerator(...)` is used to augment the training data.
+- **Training and Validation:**
+  - The model is trained for 50 epochs with data augmentation, and `ModelCheckpoint` is used to save the best model based on validation accuracy.
+- **Getting the Best Model:**
+  - `best_model = tuner.get_best_models(num_models=1)[0]`: After the search is completed, the tuner selects the best model based on the `val_accuracy` metric.
+
+### 4. MobNet
+[MobileNet](https://arxiv.org/abs/1704.04861) is a lightweight neural network architecture designed for mobile and edge devices. It uses depthwise separable convolutions, which significantly reduce the number of parameters and computations compared to traditional convolutions. The MobileNet architecture consists of a series of depthwise separable convolution layers followed by a few fully connected layers.
+
+Here is a detailed description of the architecture:
+
+- **Base MobileNet Model**: Used with pre-trained weights on ImageNet, but without the last fully connected layer (`include_top=False`). The input image size is set to (32, 32, 3).
+- **GlobalAveragePooling2D**: This layer reduces the dimensionality of the MobileNet output by computing the average values across spatial dimensions.
+- **Fully Connected Layer (Dense layer)**: The number of neurons in this layer is defined by the `units` hyperparameter, which can range from 256 to 1024 in steps of 128. The activation function is ReLU.
+- **Dropout Layer**: Used for regularizing the model, reducing overfitting. The dropout rate is defined by the `dropout_rate` hyperparameter, which can range from 0.2 to 0.5 in steps of 0.1.
+- **Final Fully Connected Layer (Dense layer)**: Contains 10 neurons (corresponding to the number of classes in CIFAR-10) and uses the softmax activation function for classification.
+
+The model is compiled with the Adam optimizer, the loss function `sparse_categorical_crossentropy` (as labels are integers rather than categorical vectors), and the `accuracy` metric.
+
+#### Hyperparameter Tuning
+
+The code uses Keras Tuner for optimizing the model's hyperparameters. Here is a detailed description of how hyperparameter tuning is performed:
+
+- **Model Building Function with Hyperparameters:**
+  - `build_model(hp)`: This function takes an `hp` object from Keras Tuner and defines the hyperparameters to be optimized.
+  - `units`: The number of neurons in the fully connected layer. Can range from 256 to 1024 in steps of 128.
+  - `dropout_rate`: The dropout rate for regularization. Can range from 0.2 to 0.5 in steps of 0.1.
+  - `learning_rate`: The learning rate for the Adam optimizer. Can be 1e-2, 1e-3, or 1e-4.
+- **Tuner Initialization:**
+  - `tuner = RandomSearch(...)`: `RandomSearch` is used for finding the best hyperparameters. The maximum number of trials (`max_trials`) is set to 5.
+- **Data Augmentation:**
+  - `ImageDataGenerator(...)` is used to augment the training data.
+- **Training and Validation:**
+  - The model is trained for 50 epochs with data augmentation, and `ModelCheckpoint` is used to save the best model based on validation accuracy.
+- **Getting the Best Model:**
+  - `best_model = tuner.get_best_models(num_models=1)[0]`: After the search is completed, the tuner selects the best model based on the `val_accuracy` metric.
+
+#### Results
+
+![Результати](https://github.com/Dmytro-Ostrenko/Data09/blob/main/data9/image_analysis/static/mobnet.png)
+
+
+
+
+
 
 ### <p align="center">:bulb: Description of Image Filters</p>
 
@@ -425,8 +701,6 @@ P.S. These filters are used for preprocessing images before classification, whic
 ## Usage
 
 The "Fundament" project allows users to choose one of four models for classifying images from the CIFAR-10 dataset. Pre-trained models are saved in `.keras` format, which allows for their reuse without the need for retraining.
-
-
 
 
 
