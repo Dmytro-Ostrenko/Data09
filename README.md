@@ -549,7 +549,7 @@ Hyperparameter tuning in the code allowed automatic finding of optimal values fo
 
 #### Results
 
-![VGG16 Model](https://github.com/Dmytro-Ostrenko/Data09/blob/main/data9/image_analysis/static/vgg16.png)
+![Модель VGG16](https://github.com/Dmytro-Ostrenko/Data09/blob/main/data9/image_analysis/static/vgg16.png)
 
 
 ### 2. AlexNet
@@ -581,7 +581,8 @@ The model is compiled with the Adam optimizer and a learning rate of 0.001, the 
 
 #### Results
 
-![AlexNet Model](https://github.com/Dmytro-Ostrenko/Data09/blob/main/data9/image_analysis/static/Alex.png)
+
+![Модель AlexNet](https://github.com/Dmytro-Ostrenko/Data09/blob/main/data9/image_analysis/static/Alex.png)
 
 
 ### 3. LeNet
@@ -618,11 +619,6 @@ The code uses Keras Tuner for optimizing the model's hyperparameters. Here is a 
 - **Getting the Best Model:**
   - `best_model = tuner.get_best_models(num_models=1)[0]`: After the search is completed, the tuner selects the best model based on the `val_accuracy` metric.
 
-#### Results
-
-![LeNet Model](https://github.com/Dmytro-Ostrenko/Data09/blob/main/data9/image_analysis/static/LeNet.png)
-
-
 ### 4. MobNet
 [MobileNet](https://arxiv.org/abs/1704.04861) is a lightweight neural network architecture designed for mobile and edge devices. It uses depthwise separable convolutions, which significantly reduce the number of parameters and computations compared to traditional convolutions. The MobileNet architecture consists of a series of depthwise separable convolution layers followed by a few fully connected layers.
 
@@ -656,7 +652,7 @@ The code uses Keras Tuner for optimizing the model's hyperparameters. Here is a 
 
 #### Results
 
-![MobNet Model](https://github.com/Dmytro-Ostrenko/Data09/blob/main/data9/image_analysis/static/MobNet.png)
+![Результати](https://github.com/Dmytro-Ostrenko/Data09/blob/main/data9/image_analysis/static/mobnet.png)
 
 
 
