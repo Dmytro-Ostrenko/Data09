@@ -161,8 +161,6 @@ python manage.py runserver
 ### 1. VGG16
 [VGG16](https://keras.io/api/applications/vgg/) – це одна з найпопулярніших архітектур згорткових нейронних мереж (CNN), яка складається з 16 шарів. Основна ідея VGG16 полягає у використанні невеликих фільтрів розміром 3x3 у всіх згорткових шарах, що дозволяє зберігати просторову інформацію та досягати високої точності. Модель закінчується кількома повнозв’язними шарами та шаром Softmax для класифікації.
 
-
-
 Архітектура моделі, яка будується в цьому коді, базується на VGG16 з деякими модифікаціями для адаптації до задачі класифікації на датасеті CIFAR-10. Ось детальний опис архітектури:
 
 - **Базова модель VGG16**: Використовується з попередньо навченими вагами на ImageNet, але без останнього повнозв'язного шару (`include_top=False`). Вхідний розмір зображення встановлений на (32, 32, 3).
@@ -247,7 +245,7 @@ python manage.py runserver
 ### 3. LeNet
 [LeNet](https://pyimagesearch.com/2016/08/01/lenet-convolutional-neural-network-in-python/) – одна з перших CNN архітектур, розроблена [Яном ЛеКуном](https://yann.lecun.com/) для розпізнавання рукописних цифр. Вона складається з чергування згорткових і підвибіркових (Pooling) шарів, завершуючись кількома повнозв’язними шарами. LeNet є простою в реалізації, але менш потужною порівняно з іншими сучасними архітектурами.
 
-Архітектура моделі, яка будується в цьому коді, є адаптацією класичної архітектури LeNet до задачі класифікації на датасеті CIFAR-10. LeNet — це одна з перших успішних архітектур згорткових нейронних мереж, розроблена Яном Лекуном у 1990-х роках для розпізнавання рукописних цифр. Ось детальний опис архітектури моделі:
+Детальний опис архітектури моделі:
 
 - **Conv2D** (змінна кількість фільтрів, розмір 5x5, ReLU активація): Перший шар згортки з гіперпараметром `conv_1_filter`, який визначає кількість фільтрів (від 32 до 128 з кроком 16).
 - **MaxPooling2D** (розмір 2x2): Максимальний пулінг зменшує розмірність виходу згорткового шару.
@@ -605,7 +603,7 @@ The model is compiled with the Adam optimizer and a learning rate of 0.001, the 
 ### 3. LeNet
 [LeNet](https://pyimagesearch.com/2016/08/01/lenet-convolutional-neural-network-in-python/) is one of the earliest CNN architectures developed by [Yann LeCun](https://yann.lecun.com/) for handwritten digit recognition. It consists of alternating convolutional and pooling layers, ending with several fully connected layers. LeNet is simple to implement but less powerful compared to other modern architectures.
 
-The model architecture built in this code is an adaptation of the classic LeNet architecture for the CIFAR-10 classification task. LeNet is one of the first successful convolutional neural network architectures, developed by Yann LeCun in the 1990s for handwritten digit recognition. Here is a detailed description of the model architecture:
+Here is a detailed description of the model architecture:
 
 - **Conv2D** (variable number of filters, size 5x5, ReLU activation): The first convolutional layer with the hyperparameter `conv_1_filter`, which defines the number of filters (from 32 to 128 in steps of 16).
 - **MaxPooling2D** (size 2x2): Max pooling reduces the dimensionality of the convolutional layer output.
