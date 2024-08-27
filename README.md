@@ -345,6 +345,17 @@ python manage.py runserver
 8. **[Накладання фонового кольору](https://pillow.readthedocs.io/en/stable/reference/Image.html)**:
    - **Опис**: перетворює зображення в відтінки сірого і накладає кольоровий фоновий ефект.
    - **Вплив**: зменшує кольорову інформацію та може допомогти виявити контури та структуру зображення, що може бути корисно в умовах недостатньої контрастності або кольорових відмінностей.
+  
+#### Приклад роботи фільтрів
+
+<p align="center">
+  <img src="https://github.com/Dmytro-Ostrenko/Data09/blob/dev/data9/image_analysis/static/Filtres.jpg" alt="Приклад 1"/>
+</p>
+<p align="center">Приклад роботи фільтрів №1</p>
+<p align="center">
+  <img src="https://github.com/Dmytro-Ostrenko/Data09/blob/dev/data9/image_analysis/static/Filtres2.jpg" alt="Приклад 2"/>
+</p>
+<p align="center">Приклад роботи фільтрів №2</p>
 
 P.S. Ці фільтри використовуються для обробки зображень перед їх класифікацією, що може допомогти поліпшити точність прогнозів моделі у випадках, коли початкове зображення не зовсім підходить для безпосереднього аналізу.
 
@@ -703,6 +714,17 @@ As for the filters themselves, they have the following characteristics:
 8. **[Color Background Overlay](https://pillow.readthedocs.io/en/stable/reference/Image.html)**:
    - **Description**: Converts the image to grayscale and applies a color background effect.
    - **Impact**: Reduces color information and can help reveal the contours and structure of the image, which can be useful in cases of low contrast or color differences.
+
+#### Example of Filter Operation
+
+<p align="center">
+  <img src="https://github.com/Dmytro-Ostrenko/Data09/blob/dev/data9/image_analysis/static/Filtres.jpg" alt="Example 1"/>
+</p>
+<p align="center">Example of Filter Operation #1</p>
+<p align="center">
+  <img src="https://github.com/Dmytro-Ostrenko/Data09/blob/dev/data9/image_analysis/static/Filtres2.jpg" alt="Example 2"/>
+</p>
+<p align="center">Example of Filter Operation #2</p>
 
 P.S. These filters are used for preprocessing images before classification, which can help improve the accuracy of the model’s predictions in cases where the initial image is not well-suited for direct analysis.
 
