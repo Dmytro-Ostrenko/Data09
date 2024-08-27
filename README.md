@@ -284,6 +284,10 @@ python manage.py runserver
 
 Отже, тюнінг гіперпараметрів у коді дозволив автоматично знаходити оптимальні значення для кількості фільтрів у згорткових шарах, кількості нейронів у повнозв'язному шарі та швидкості навчання, що значно покращило продуктивність моделі на задачі класифікації CIFAR-10.
 
+#### Результати
+
+![Модель LeNet](https://github.com/Dmytro-Ostrenko/Data09/blob/dev/data9/image_analysis/static/LeNet.jpg)
+
 
 ### 4. MobileNet
 [MobileNet](https://keras.io/api/applications/mobilenet/)  – це легка архітектура CNN, спеціально розроблена для мобільних та вбудованих систем. Вона використовує глибокі згортки (Depthwise Separable Convolutions), що значно зменшує кількість параметрів і обчислень, роблячи її ефективною для застосувань з обмеженими ресурсами.
@@ -299,7 +303,9 @@ python manage.py runserver
 Навчання моделі відбувається протягом 50 епох, і найкраща модель зберігається на Google Drive за допомогою `ModelCheckpoint`, який відстежує валідаційну точність. Після навчання візуалізуються точність та втрати на тренувальних і валідаційних даних, а також оцінюється точність збереженої моделі на тестових даних.
 
 #### Результати роботи моделі
-![Результати](https://github.com/Dmytro-Ostrenko/Data09/blob/main/data9/image_analysis/static/mobnet.png)
+<p align="center">
+  <img src="https://github.com/Dmytro-Ostrenko/Data09/blob/main/data9/image_analysis/static/mobnet.png" alt="Результати"/>
+</p>
 
 
 ### <p align="center">:bulb: Опис фільтрів для роботи із зображеннями </p>
@@ -339,6 +345,17 @@ python manage.py runserver
 8. **[Накладання фонового кольору](https://pillow.readthedocs.io/en/stable/reference/Image.html)**:
    - **Опис**: перетворює зображення в відтінки сірого і накладає кольоровий фоновий ефект.
    - **Вплив**: зменшує кольорову інформацію та може допомогти виявити контури та структуру зображення, що може бути корисно в умовах недостатньої контрастності або кольорових відмінностей.
+  
+#### Приклад роботи фільтрів
+
+<p align="center">
+  <img src="https://github.com/Dmytro-Ostrenko/Data09/blob/dev/data9/image_analysis/static/Filtres.jpg" alt="Приклад 1"/>
+</p>
+<p align="center">Приклад роботи фільтрів №1</p>
+<p align="center">
+  <img src="https://github.com/Dmytro-Ostrenko/Data09/blob/dev/data9/image_analysis/static/Filtres2.jpg" alt="Приклад 2"/>
+</p>
+<p align="center">Приклад роботи фільтрів №2</p>
 
 P.S. Ці фільтри використовуються для обробки зображень перед їх класифікацією, що може допомогти поліпшити точність прогнозів моделі у випадках, коли початкове зображення не зовсім підходить для безпосереднього аналізу.
 
@@ -374,6 +391,7 @@ The "Fundament" application is a web service for image classification, based on 
 - **[Python](https://www.python.org/)** - The main programming language used for developing the image classification logic and working with neural networks.
 - **[Django](https://www.djangoproject.com/)** - A web framework for building and managing the backend of the web application.
 - **[TensorFlow](https://www.tensorflow.org/)** - A machine learning library for creating, training, and deploying neural network models.
+- **[PostgreSQL](https://www.postgresql.org/)** - A relational database used for storing and managing user data and models.
 - **[Docker Desktop](https://www.docker.com/products/docker-desktop/)** - A platform for containerization that ensures an isolated environment for deploying the application.
 - **[Docker Hub](https://hub.docker.com/)** - A container registry for storing and distributing Docker images.
 - **[GitHub](https://github.com/)** - A platform for version control and collaboration on the project.
@@ -618,6 +636,10 @@ The code uses Keras Tuner for optimizing the model's hyperparameters. Here is a 
 - **Getting the Best Model:**
   - `best_model = tuner.get_best_models(num_models=1)[0]`: After the search is completed, the tuner selects the best model based on the `val_accuracy` metric.
 
+ #### The results
+
+![Модель LeNet](https://github.com/Dmytro-Ostrenko/Data09/blob/dev/data9/image_analysis/static/LeNet.jpg)
+
 ### 4. MobNet
 [MobileNet](https://arxiv.org/abs/1704.04861) is a lightweight neural network architecture designed for mobile and edge devices. It uses depthwise separable convolutions, which significantly reduce the number of parameters and computations compared to traditional convolutions. The MobileNet architecture consists of a series of depthwise separable convolution layers followed by a few fully connected layers.
 
@@ -651,11 +673,9 @@ The code uses Keras Tuner for optimizing the model's hyperparameters. Here is a 
 
 #### Results
 
-![Результати](https://github.com/Dmytro-Ostrenko/Data09/blob/main/data9/image_analysis/static/mobnet.png)
-
-
-
-
+<p align="center">
+  <img src="https://github.com/Dmytro-Ostrenko/Data09/blob/main/data9/image_analysis/static/mobnet.png" alt="Результати"/>
+</p>
 
 
 ### <p align="center">:bulb: Description of Image Filters</p>
@@ -695,12 +715,19 @@ As for the filters themselves, they have the following characteristics:
    - **Description**: Converts the image to grayscale and applies a color background effect.
    - **Impact**: Reduces color information and can help reveal the contours and structure of the image, which can be useful in cases of low contrast or color differences.
 
+#### Example of Filter Operation
+
+<p align="center">
+  <img src="https://github.com/Dmytro-Ostrenko/Data09/blob/dev/data9/image_analysis/static/Filtres.jpg" alt="Example 1"/>
+</p>
+<p align="center">Example of Filter Operation #1</p>
+<p align="center">
+  <img src="https://github.com/Dmytro-Ostrenko/Data09/blob/dev/data9/image_analysis/static/Filtres2.jpg" alt="Example 2"/>
+</p>
+<p align="center">Example of Filter Operation #2</p>
+
 P.S. These filters are used for preprocessing images before classification, which can help improve the accuracy of the model’s predictions in cases where the initial image is not well-suited for direct analysis.
 
 ## Usage
 
 The "Fundament" project allows users to choose one of four models for classifying images from the CIFAR-10 dataset. Pre-trained models are saved in `.keras` format, which allows for their reuse without the need for retraining.
-
-
-
-
