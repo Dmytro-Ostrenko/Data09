@@ -284,6 +284,10 @@ python manage.py runserver
 
 Отже, тюнінг гіперпараметрів у коді дозволив автоматично знаходити оптимальні значення для кількості фільтрів у згорткових шарах, кількості нейронів у повнозв'язному шарі та швидкості навчання, що значно покращило продуктивність моделі на задачі класифікації CIFAR-10.
 
+#### Результати
+
+![Модель LeNet](https://github.com/Dmytro-Ostrenko/Data09/blob/dev/data9/image_analysis/static/LeNet.jpg)
+
 
 ### 4. MobileNet
 [MobileNet](https://keras.io/api/applications/mobilenet/)  – це легка архітектура CNN, спеціально розроблена для мобільних та вбудованих систем. Вона використовує глибокі згортки (Depthwise Separable Convolutions), що значно зменшує кількість параметрів і обчислень, роблячи її ефективною для застосувань з обмеженими ресурсами.
@@ -299,7 +303,9 @@ python manage.py runserver
 Навчання моделі відбувається протягом 50 епох, і найкраща модель зберігається на Google Drive за допомогою `ModelCheckpoint`, який відстежує валідаційну точність. Після навчання візуалізуються точність та втрати на тренувальних і валідаційних даних, а також оцінюється точність збереженої моделі на тестових даних.
 
 #### Результати роботи моделі
-![Результати](https://github.com/Dmytro-Ostrenko/Data09/blob/main/data9/image_analysis/static/mobnet.png)
+<p align="center">
+  <img src="https://github.com/Dmytro-Ostrenko/Data09/blob/main/data9/image_analysis/static/mobnet.png" alt="Результати"/>
+</p>
 
 
 ### <p align="center">:bulb: Опис фільтрів для роботи із зображеннями </p>
@@ -619,6 +625,10 @@ The code uses Keras Tuner for optimizing the model's hyperparameters. Here is a 
 - **Getting the Best Model:**
   - `best_model = tuner.get_best_models(num_models=1)[0]`: After the search is completed, the tuner selects the best model based on the `val_accuracy` metric.
 
+ #### The results
+
+![Модель LeNet](https://github.com/Dmytro-Ostrenko/Data09/blob/dev/data9/image_analysis/static/LeNet.jpg)
+
 ### 4. MobNet
 [MobileNet](https://arxiv.org/abs/1704.04861) is a lightweight neural network architecture designed for mobile and edge devices. It uses depthwise separable convolutions, which significantly reduce the number of parameters and computations compared to traditional convolutions. The MobileNet architecture consists of a series of depthwise separable convolution layers followed by a few fully connected layers.
 
@@ -652,11 +662,9 @@ The code uses Keras Tuner for optimizing the model's hyperparameters. Here is a 
 
 #### Results
 
-![Результати](https://github.com/Dmytro-Ostrenko/Data09/blob/main/data9/image_analysis/static/mobnet.png)
-
-
-
-
+<p align="center">
+  <img src="https://github.com/Dmytro-Ostrenko/Data09/blob/main/data9/image_analysis/static/mobnet.png" alt="Результати"/>
+</p>
 
 
 ### <p align="center">:bulb: Description of Image Filters</p>
