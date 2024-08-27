@@ -357,6 +357,24 @@ python manage.py runserver
 
 P.S. Ці фільтри використовуються для обробки зображень перед їх класифікацією, що може допомогти поліпшити точність прогнозів моделі у випадках, коли початкове зображення не зовсім підходить для безпосереднього аналізу.
 
+---
+### <p align="center">:iphone: Версія застосунку "Фундамент" у вигляді чат-боту "MobNET"</p>
+
+Для того, щоб активувати чат-бот у себе на ПК, треба перейти до директорії `Data9\telegram_app` та ввести у терміналі команду:
+
+```
+python -m app
+```
+
+Після цього у [Telegram](https://web.telegram.org/k/) потрібно знайти `@MobNet_fundament_bot` ([натисніть тут](https://t.me/MobNet_fundament_bot)) та дотримуватись текстових інструкцій для успішної взаємодії із застосунком.
+
+<p align="center">
+  <img src="https://github.com/Dmytro-Ostrenko/Data09/blob/dev/data9/image_analysis/static/MobNet.jpg" alt="Приклад роботи MobNET Chatbot"/>
+</p>
+
+Цей чат-бот дозволяє взаємодіяти із застосунком "Фундамент", виконуючи класифікацію зображень та інші функції безпосередньо зі свого мобільного пристрою через Telegram. Приклад роботи наведено на зображенні вище.
+
+---
 
 ## Використання
 
@@ -725,6 +743,24 @@ As for the filters themselves, they have the following characteristics:
 <p align="center">Example of Filter Operation #2</p>
 
 P.S. These filters are used for preprocessing images before classification, which can help improve the accuracy of the model’s predictions in cases where the initial image is not well-suited for direct analysis.
+
+---
+### <p align="center">:iphone: Version of the "Fundament" Application as a "MobNET" Chatbot</p>
+
+To activate the chatbot on your PC, navigate to the `Data9\telegram_app` directory and enter the following command in the terminal:
+
+```
+python -m app
+```
+Then, in [Telegram](https://web.telegram.org/k/), search for `@MobNet_fundament_bot` ([click here](https://t.me/MobNet_fundament_bot)) and follow the text instructions to interact successfully with the application.
+
+<p align="center">
+  <img src="https://github.com/Dmytro-Ostrenko/Data09/blob/dev/data9/image_analysis/static/MobNet.jpg" alt="MobNET Chatbot Example"/>
+</p>
+
+This chatbot allows you to interact with the "Fundament" application, performing image classification and other functions directly from your mobile device via Telegram. An example of its functionality is shown in the image above.
+
+---
 
 ## Usage
 
